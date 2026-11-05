@@ -1,0 +1,4059 @@
+{
+  "title": "ELV Pre-Sale Site Survey",
+  "subtitle": "Requirement checklist — field capture",
+  "sections": [
+    {
+      "key": "client",
+      "title": "Client information",
+      "subtitle": "Deal, contact & survey details",
+      "icon": "📅",
+      "tone": "blue",
+      "blocks": [
+        {
+          "t": "heading",
+          "text": "GS IT internal"
+        },
+        {
+          "t": "text",
+          "key": "client.gs_it_internal.deal_id",
+          "label": "Deal ID",
+          "placeholder": "e.g. GS-2026-0001",
+          "required": true
+        },
+        {
+          "t": "text",
+          "key": "client.gs_it_internal.sales_person",
+          "label": "Sales person",
+          "placeholder": "Sales rep name",
+          "required": true
+        },
+        {
+          "t": "text",
+          "key": "client.gs_it_internal.survey_engineer",
+          "label": "Survey engineer",
+          "placeholder": "Engineer name",
+          "required": true
+        },
+        {
+          "t": "date",
+          "key": "client.gs_it_internal.survey_date",
+          "label": "Survey date",
+          "required": true,
+          "defaultToday": true
+        },
+        {
+          "t": "heading",
+          "text": "Client details"
+        },
+        {
+          "t": "text",
+          "key": "client.client_details.client_name",
+          "label": "Client / company name",
+          "placeholder": "e.g. Acme Trading LLC",
+          "required": true
+        },
+        {
+          "t": "text",
+          "key": "client.client_details.contact_person",
+          "label": "Contact person",
+          "placeholder": "Name at site",
+          "required": false
+        },
+        {
+          "t": "text",
+          "key": "client.client_details.contact_phone",
+          "label": "Contact phone",
+          "placeholder": "+971 …",
+          "required": false
+        },
+        {
+          "t": "text",
+          "key": "client.client_details.contact_email",
+          "label": "Contact email",
+          "placeholder": "name@company.com",
+          "required": false
+        }
+      ]
+    },
+    {
+      "key": "cabling",
+      "title": "Structured cabling",
+      "subtitle": "Cable type, routing & civil work",
+      "icon": "🔌",
+      "tone": "teal",
+      "blocks": [
+        {
+          "t": "choice",
+          "key": "cabling.cabling_location",
+          "label": "Cabling location",
+          "options": [
+            "Office",
+            "Warehouse",
+            "Villa",
+            "Other"
+          ],
+          "multi": false,
+          "required": true
+        },
+        {
+          "t": "choice",
+          "key": "cabling.cable_type",
+          "label": "Cable type",
+          "options": [
+            "Cat6",
+            "Cat6A",
+            "Cat7",
+            "Fiber",
+            "Coaxial"
+          ],
+          "multi": true,
+          "required": true
+        },
+        {
+          "t": "number",
+          "key": "cabling.trunking_mtr",
+          "label": "Trunking (mtr)",
+          "placeholder": "0",
+          "required": true
+        },
+        {
+          "t": "number",
+          "key": "cabling.piping_mtr",
+          "label": "Piping (mtr)",
+          "placeholder": "0",
+          "required": true
+        },
+        {
+          "t": "choice",
+          "key": "cabling.civil_work_required",
+          "label": "Civil work required?",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false,
+          "required": false
+        },
+        {
+          "t": "textarea",
+          "key": "cabling.other_materials_required",
+          "label": "Other materials required",
+          "placeholder": "List any additional materials needed…",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Structured cabling requirement"
+        },
+        {
+          "t": "heading",
+          "text": "General"
+        },
+        {
+          "t": "text",
+          "key": "cabling.general.purpose_of_cabling",
+          "label": "Purpose of cabling",
+          "placeholder": "e.g. Office network connectivity",
+          "required": false
+        },
+        {
+          "t": "select",
+          "key": "cabling.general.required_bandwidth",
+          "label": "Required bandwidth",
+          "options": [
+            "100 Mbps",
+            "1 Gbps",
+            "10 Gbps",
+            "Other"
+          ],
+          "required": false
+        },
+        {
+          "t": "choice",
+          "key": "cabling.general.cable_type",
+          "label": "Cable type",
+          "options": [
+            "Cat6 UTP",
+            "Cat6A UTP",
+            "Cat6 STP",
+            "Cat7"
+          ],
+          "multi": false,
+          "required": false
+        },
+        {
+          "t": "number",
+          "key": "cabling.general.required_data_points",
+          "label": "Required data points",
+          "placeholder": "e.g. 95",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Route details"
+        },
+        {
+          "t": "routes",
+          "key": "cabling.route_details.sc_routes",
+          "placeholders": [
+            [
+              "e.g. Rack room",
+              "e.g. Workstation area"
+            ],
+            [
+              "e.g. MDF",
+              "e.g. IDF-1"
+            ]
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Cable path check"
+        },
+        {
+          "t": "check",
+          "key": "cabling.cable_path_check.existing_tray_available",
+          "label": "Existing tray available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.cable_path_check.conduit_available",
+          "label": "Conduit available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.cable_path_check.ceiling_route",
+          "label": "Ceiling route",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.cable_path_check.underground_duct",
+          "label": "Underground duct",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.cable_path_check.riser_access",
+          "label": "Riser access",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Physical inspection"
+        },
+        {
+          "t": "check",
+          "key": "cabling.physical_inspection.tray_capacity",
+          "label": "Tray capacity",
+          "options": [
+            "OK",
+            "Full",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.physical_inspection.sharp_bends",
+          "label": "Sharp bends",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.physical_inspection.water_leakage_risk",
+          "label": "Water leakage risk",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.physical_inspection.outdoor_exposure",
+          "label": "Outdoor exposure",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.physical_inspection.civil_work_required",
+          "label": "Civil work required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Rack & termination"
+        },
+        {
+          "t": "check",
+          "key": "cabling.rack_and_termination.rack_space_available",
+          "label": "Rack space available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.rack_and_termination.patch_panel_required",
+          "label": "Patch panel required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.rack_and_termination.labeling_required",
+          "label": "Labeling required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "choice",
+          "key": "cabling.rack_and_termination.termination_type",
+          "label": "Termination type",
+          "options": [
+            "Keystone jack",
+            "RJ45 direct",
+            "Toolless"
+          ],
+          "multi": false,
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Testing requirement"
+        },
+        {
+          "t": "check",
+          "key": "cabling.testing_requirement.fluke_test_required",
+          "label": "Fluke test required",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.testing_requirement.cable_continuity_test",
+          "label": "Cable continuity test",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.testing_requirement.labeling_required",
+          "label": "Labeling required",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.testing_requirement.as_built_drawing_required",
+          "label": "As-built drawing required",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Outdoor cable check (if applicable)"
+        },
+        {
+          "t": "check",
+          "key": "cabling.outdoor_cable_check_if_applicable.hdpe_duct_available",
+          "label": "HDPE duct available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.outdoor_cable_check_if_applicable.armored_cable_required",
+          "label": "Armored cable required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.outdoor_cable_check_if_applicable.outdoor_conduit_available",
+          "label": "Outdoor conduit available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.outdoor_cable_check_if_applicable.waterproof_protection_required",
+          "label": "Waterproof protection required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Equipment requirement — accessories"
+        },
+        {
+          "t": "accessories",
+          "key": "cabling.equipment_requirement_accessories.accessories",
+          "rows": [
+            {
+              "key": "patch_panel",
+              "label": "Patch panel",
+              "options": [
+                {
+                  "value": "12 Port Cat6",
+                  "label": "12P Cat6"
+                },
+                {
+                  "value": "24 Port Cat6",
+                  "label": "24P Cat6"
+                },
+                {
+                  "value": "48 Port Cat6",
+                  "label": "48P Cat6"
+                },
+                {
+                  "value": "24 Port Cat6A",
+                  "label": "24P Cat6A"
+                }
+              ]
+            },
+            {
+              "key": "faceplates",
+              "label": "Faceplates",
+              "options": [
+                {
+                  "value": "Single port",
+                  "label": "Single port"
+                },
+                {
+                  "value": "Dual port",
+                  "label": "Dual port"
+                },
+                {
+                  "value": "Quad port",
+                  "label": "Quad port"
+                }
+              ]
+            },
+            {
+              "key": "patch_cords",
+              "label": "Patch cords",
+              "options": [
+                {
+                  "value": "Cat6 1m",
+                  "label": "Cat6 1m"
+                },
+                {
+                  "value": "Cat6 2m",
+                  "label": "Cat6 2m"
+                },
+                {
+                  "value": "Cat6 3m",
+                  "label": "Cat6 3m"
+                },
+                {
+                  "value": "Cat6 5m",
+                  "label": "Cat6 5m"
+                },
+                {
+                  "value": "Cat6A 1m",
+                  "label": "Cat6A 1m"
+                },
+                {
+                  "value": "Cat6A 3m",
+                  "label": "Cat6A 3m"
+                }
+              ]
+            },
+            {
+              "key": "cable_manager",
+              "label": "Cable manager",
+              "options": [
+                {
+                  "value": "Horizontal",
+                  "label": "Horizontal"
+                },
+                {
+                  "value": "Vertical",
+                  "label": "Vertical"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Safety & compliance"
+        },
+        {
+          "t": "check",
+          "key": "cabling.safety_and_compliance.proper_bend_radius",
+          "label": "Proper bend radius",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.safety_and_compliance.fire_stopping_required",
+          "label": "Fire stopping required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.safety_and_compliance.cable_protection",
+          "label": "Cable protection",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "cabling.safety_and_compliance.earthing_available",
+          "label": "Earthing available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Site photos"
+        },
+        {
+          "t": "photos",
+          "key": "cabling.site_photos.photos",
+          "slots": [
+            {
+              "key": "rack_area",
+              "label": "Rack area"
+            },
+            {
+              "key": "cable_route",
+              "label": "Cable route"
+            },
+            {
+              "key": "mdf_idf_room",
+              "label": "MDF/IDF room"
+            },
+            {
+              "key": "workstation_area",
+              "label": "Workstation area"
+            }
+          ]
+        },
+        {
+          "t": "dataPoints",
+          "key": "cabling.data_points",
+          "groups": [
+            {
+              "group": "Network & IT",
+              "color": "#38bdf8",
+              "items": [
+                "Workstation data points",
+                "Printer data points",
+                "Meeting room data points",
+                "Reception data points",
+                "Manager room data points",
+                "IP phone points",
+                "WiFi access point",
+                "TV HDMI point",
+                "Video conference point",
+                "Server to IDF uplink points",
+                "Fiber uplink points",
+                "Patch panel ports",
+                "Network rack"
+              ]
+            },
+            {
+              "group": "Surveillance",
+              "color": "#fb7185",
+              "items": [
+                "Indoor camera points",
+                "Outdoor camera points",
+                "ANPR camera point",
+                "NVR point"
+              ]
+            },
+            {
+              "group": "Access & Security",
+              "color": "#fbbf24",
+              "items": [
+                "Access control points",
+                "Door controller points",
+                "Biometric device points",
+                "Intercom points"
+              ]
+            },
+            {
+              "group": "AV & Power",
+              "color": "#a78bfa",
+              "items": [
+                "Speaker points",
+                "PA system points",
+                "UPS power points"
+              ]
+            },
+            {
+              "group": "Spare",
+              "color": "#94a3b8",
+              "items": [
+                "Spare data points"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cabinet",
+      "title": "Network cabinet",
+      "subtitle": "Specifications, power, cooling, equipment & compliance audit",
+      "icon": "🖥",
+      "tone": "indigo",
+      "blocks": [
+        {
+          "t": "heading",
+          "text": "Cabinet specifications"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cabinet_specifications.size_u",
+          "label": "Size (U)",
+          "options": [
+            "6U",
+            "9U",
+            "12U",
+            "15U",
+            "22U",
+            "27U",
+            "42U"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cabinet_specifications.type",
+          "label": "Type",
+          "options": [
+            "Wall mount",
+            "Floor standing",
+            "Outdoor cabinet",
+            "Open rack"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cabinet_specifications.width_mm",
+          "label": "Width (mm)",
+          "options": [
+            "600",
+            "800"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cabinet_specifications.depth_mm",
+          "label": "Depth (mm)",
+          "options": [
+            "450",
+            "600",
+            "800",
+            "1000",
+            "1200"
+          ],
+          "multi": false
+        },
+        {
+          "t": "number",
+          "key": "cabinet.cabinet_specifications.quantity",
+          "label": "Quantity",
+          "placeholder": "1",
+          "required": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cabinet_specifications.no_of_shelves",
+          "label": "No. of shelves",
+          "options": [
+            "0",
+            "1",
+            "2",
+            "3",
+            "4+"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Cabinet location"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cabinet_location.install_location",
+          "label": "Install location",
+          "options": [
+            "Server room",
+            "MDF room",
+            "IDF room",
+            "Office area",
+            "Warehouse",
+            "Security room",
+            "Outdoor area"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cabinet_location.indoor_outdoor",
+          "label": "Indoor / outdoor",
+          "options": [
+            "Indoor",
+            "Outdoor"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Power requirement"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.power_requirement.pdu_required",
+          "label": "PDU required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.power_requirement.pdu_sockets",
+          "label": "PDU sockets",
+          "options": [
+            "4 port",
+            "6 port",
+            "8 port",
+            "12 port",
+            "24 port"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.power_requirement.ups_inside_rack",
+          "label": "UPS inside rack",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.power_requirement.dedicated_power_point",
+          "label": "Dedicated power point",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Cooling & ventilation"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cooling_and_ventilation.fan_tray_required",
+          "label": "Fan tray required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cooling_and_ventilation.number_of_fans",
+          "label": "Number of fans",
+          "options": [
+            "2",
+            "4",
+            "6"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cooling_and_ventilation.ac_room",
+          "label": "AC room",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Cable management"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cable_management.cable_organizer",
+          "label": "Cable organizer",
+          "options": [
+            "Horizontal",
+            "Vertical",
+            "Both",
+            "Not required"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cable_management.brush_panel",
+          "label": "Brush panel",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cable_management.cable_entry",
+          "label": "Cable entry",
+          "options": [
+            "Top",
+            "Bottom",
+            "Both"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.cable_management.patch_panel",
+          "label": "Patch panel",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Equipment installation"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.equipment_installation.equipment",
+          "label": "Equipment",
+          "options": [
+            "Network switch",
+            "Firewall",
+            "Router",
+            "NVR",
+            "Server",
+            "Access control controller",
+            "Fiber ODF",
+            "UPS"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.equipment_installation.rack_utilization",
+          "label": "Rack utilization",
+          "options": [
+            "25%",
+            "50%",
+            "75%",
+            "100%"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Safety & security"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.safety_and_security.lockable_front_door",
+          "label": "Lockable front door",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.safety_and_security.lockable_side_panels",
+          "label": "Lockable side panels",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.safety_and_security.grounding_earthing",
+          "label": "Grounding / earthing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.safety_and_security.surge_protection",
+          "label": "Surge protection",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site assessment"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.site_assessment.rack_space_available",
+          "label": "Rack space available",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.site_assessment.floor_space_available",
+          "label": "Floor space available",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.site_assessment.civil_work_required",
+          "label": "Civil work required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.site_assessment.existing_rack_reusable",
+          "label": "Existing rack reusable",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Accessories"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.accessories.required",
+          "label": "Required",
+          "options": [
+            "PDU",
+            "Fan tray",
+            "Fixed shelf",
+            "Sliding shelf",
+            "Cable manager",
+            "Patch panel",
+            "Brush panel",
+            "Grounding kit",
+            "Casters"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Documentation"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.documentation.rack_labeling",
+          "label": "Rack labeling",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.documentation.equipment_labeling",
+          "label": "Equipment labeling",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.documentation.rack_layout_drawing",
+          "label": "Rack layout drawing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site photos"
+        },
+        {
+          "t": "photos",
+          "key": "cabinet.site_photos.photos",
+          "slots": [
+            {
+              "key": "rack_location",
+              "label": "Rack location"
+            },
+            {
+              "key": "existing_rack",
+              "label": "Existing rack"
+            },
+            {
+              "key": "power_source",
+              "label": "Power source"
+            },
+            {
+              "key": "cable_entry",
+              "label": "Cable entry"
+            },
+            {
+              "key": "equipment_area",
+              "label": "Equipment area"
+            }
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Future expansion"
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.future_expansion.additional_rack_space",
+          "label": "Additional rack space",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.future_expansion.future_equipment",
+          "label": "Future equipment",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.future_expansion.spare_u_space",
+          "label": "Spare U space",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cabinet.future_expansion.spare_pdu_capacity",
+          "label": "Spare PDU capacity",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        }
+      ]
+    },
+    {
+      "key": "switch",
+      "title": "Network switch",
+      "subtitle": "Ports, PoE, uplink, installation & audit",
+      "icon": "🌎",
+      "tone": "purple",
+      "blocks": [
+        {
+          "t": "heading",
+          "text": "Basic information"
+        },
+        {
+          "t": "choice",
+          "key": "switch.basic_information.no_of_ports",
+          "label": "No. of ports",
+          "options": [
+            "8 port",
+            "16 port",
+            "24 port",
+            "48 port"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.basic_information.brand",
+          "label": "Brand",
+          "options": [
+            "Cisco",
+            "Aruba",
+            "HPE",
+            "Ubiquiti",
+            "TP-Link",
+            "Ruijie",
+            "Fortinet",
+            "Juniper",
+            "Other"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "switch.basic_information.switch_type",
+          "label": "Switch type",
+          "options": [
+            "Unmanaged",
+            "Smart managed",
+            "Layer 2 managed",
+            "Layer 3 managed",
+            "PoE switch",
+            "Industrial switch"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "switch.basic_information.poe_type",
+          "label": "PoE type",
+          "options": [
+            "None",
+            "PoE 15.4W",
+            "PoE+ 30W",
+            "PoE++ 90W"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.basic_information.uplink_media",
+          "label": "Uplink media",
+          "options": [
+            "RJ45",
+            "SFP",
+            "SFP+",
+            "QSFP",
+            "Fiber"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "switch.basic_information.mounting_type",
+          "label": "Mounting type",
+          "options": [
+            "Desktop",
+            "Rack mount",
+            "Wall mount",
+            "DIN rail"
+          ],
+          "multi": false
+        },
+        {
+          "t": "number",
+          "key": "switch.basic_information.quantity",
+          "label": "Quantity",
+          "placeholder": "1",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Installation details"
+        },
+        {
+          "t": "choice",
+          "key": "switch.installation_details.install_location",
+          "label": "Install location",
+          "options": [
+            "MDF room",
+            "IDF room",
+            "Server room",
+            "Office area",
+            "Security room",
+            "Outdoor cabinet"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "switch.installation_details.indoor_outdoor",
+          "label": "Indoor / outdoor",
+          "options": [
+            "Indoor",
+            "Outdoor"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Network requirement"
+        },
+        {
+          "t": "choice",
+          "key": "switch.network_requirement.access_port_speed",
+          "label": "Access port speed",
+          "options": [
+            "1G",
+            "2.5G",
+            "5G",
+            "10G"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.network_requirement.uplink_speed",
+          "label": "Uplink speed",
+          "options": [
+            "1G",
+            "10G",
+            "25G",
+            "40G",
+            "100G"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.network_requirement.vlan_required",
+          "label": "VLAN required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.network_requirement.stackable",
+          "label": "Stackable",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Power requirement"
+        },
+        {
+          "t": "choice",
+          "key": "switch.power_requirement.ups_protected",
+          "label": "UPS protected",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.power_requirement.dual_power_supply",
+          "label": "Dual power supply",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Accessories"
+        },
+        {
+          "t": "choice",
+          "key": "switch.accessories.sfp_module_required",
+          "label": "SFP module required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.accessories.patch_cords_required",
+          "label": "Patch cords required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "number",
+          "key": "switch.accessories.number_of_sfp_modules",
+          "label": "Number of SFP modules",
+          "placeholder": "0",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Site photos"
+        },
+        {
+          "t": "photos",
+          "key": "switch.site_photos.photos",
+          "slots": [
+            {
+              "key": "install_location",
+              "label": "Install location"
+            },
+            {
+              "key": "existing_switch",
+              "label": "Existing switch"
+            },
+            {
+              "key": "rack_photo",
+              "label": "Rack photo"
+            },
+            {
+              "key": "power_source",
+              "label": "Power source"
+            }
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Future expansion"
+        },
+        {
+          "t": "choice",
+          "key": "switch.future_expansion.additional_ports",
+          "label": "Additional ports",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.future_expansion.additional_switch",
+          "label": "Additional switch",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "switch.future_expansion.spare_capacity",
+          "label": "Spare capacity",
+          "options": [
+            "10%",
+            "20%",
+            "30%",
+            "50%"
+          ],
+          "multi": false
+        }
+      ]
+    },
+    {
+      "key": "cctv",
+      "title": "CCTV / surveillance",
+      "subtitle": "Cameras, resolution & storage",
+      "icon": "📷",
+      "tone": "rose",
+      "blocks": [
+        {
+          "t": "heading",
+          "text": "Camera product selection"
+        },
+        {
+          "t": "cameraSets",
+          "key": "cctv.camera_sets"
+        },
+        {
+          "t": "heading",
+          "text": "Storage & recording"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.storage_and_recording.recorder_type",
+          "label": "Recorder type",
+          "options": [
+            "NVR",
+            "DVR",
+            "Hybrid NVR"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.storage_and_recording.recorder_channels",
+          "label": "Recorder channels",
+          "options": [
+            "4CH",
+            "8CH",
+            "16CH",
+            "32CH",
+            "64CH"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.storage_and_recording.storage_capacity",
+          "label": "Storage capacity",
+          "options": [
+            "2TB",
+            "4TB",
+            "8TB",
+            "16TB",
+            "RAID storage"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.storage_and_recording.retention_requirement",
+          "label": "Retention requirement",
+          "options": [
+            "7 days",
+            "15 days",
+            "30 days",
+            "60 days",
+            "90 days"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.storage_and_recording.recording_mode",
+          "label": "Recording mode",
+          "options": [
+            "Continuous",
+            "Motion based",
+            "Schedule based",
+            "Event based"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Network & connectivity"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.network_and_connectivity.remote_viewing",
+          "label": "Remote viewing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.network_and_connectivity.mobile_app_access",
+          "label": "Mobile app access",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.network_and_connectivity.poe_requirement",
+          "label": "PoE requirement",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.network_and_connectivity.uplink_requirement",
+          "label": "Uplink requirement",
+          "options": [
+            "1G",
+            "10G",
+            "Fiber"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Installation details"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.installation_details.mounting_type",
+          "label": "Mounting type",
+          "options": [
+            "Ceiling",
+            "Wall",
+            "Pole",
+            "Corner mount"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.installation_details.cable_type",
+          "label": "Cable type",
+          "options": [
+            "Cat6",
+            "Cat6A",
+            "Fiber",
+            "Siamese cable"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.installation_details.cable_route",
+          "label": "Cable route",
+          "options": [
+            "Ceiling",
+            "Conduit",
+            "Tray",
+            "Underground"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Monitoring & display"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.monitoring_and_display.monitoring_station",
+          "label": "Monitoring station",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.monitoring_and_display.monitor_size",
+          "label": "Monitor size",
+          "options": [
+            "24\"",
+            "32\"",
+            "43\"",
+            "Video wall"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.monitoring_and_display.tv_display_output",
+          "label": "TV/display output",
+          "options": [
+            "HDMI",
+            "VGA"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Power requirement"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.power_requirement.ups_backup",
+          "label": "UPS backup",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.power_requirement.backup_duration",
+          "label": "Backup duration",
+          "options": [
+            "15 min",
+            "30 min",
+            "1 hour",
+            "2 hours"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Compliance & security"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.compliance_and_security.sira_compliance",
+          "label": "Sira compliance",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Testing & documentation"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.testing_and_documentation.camera_testing",
+          "label": "Camera testing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.testing_and_documentation.remote_access_testing",
+          "label": "Remote access testing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.testing_and_documentation.as_built_drawing",
+          "label": "As-built drawing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.testing_and_documentation.labeling_required",
+          "label": "Labeling required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site assessment"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.site_assessment.lighting_condition",
+          "label": "Lighting condition",
+          "options": [
+            "Good",
+            "Medium",
+            "Low light"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.site_assessment.blind_spot_check",
+          "label": "Blind spot check",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.site_assessment.height_restriction",
+          "label": "Height restriction",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.site_assessment.civil_work_required",
+          "label": "Civil work required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Accessories"
+        },
+        {
+          "t": "choiceQty",
+          "key": "cctv.accessories.junction_box",
+          "label": "Junction box",
+          "yn": true,
+          "qty": true
+        },
+        {
+          "t": "choiceQty",
+          "key": "cctv.accessories.pole_mount",
+          "label": "Pole mount",
+          "yn": true,
+          "qty": true
+        },
+        {
+          "t": "choiceQty",
+          "key": "cctv.accessories.rack",
+          "label": "Rack",
+          "yn": true,
+          "qty": true
+        },
+        {
+          "t": "choiceQty",
+          "key": "cctv.accessories.poe_switch",
+          "label": "PoE switch",
+          "yn": false,
+          "qty": true
+        },
+        {
+          "t": "heading",
+          "text": "Additional SIRA requirements"
+        },
+        {
+          "t": "heading",
+          "text": "SIRA project type"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.sira_project_type.project_type",
+          "label": "Project type",
+          "options": [
+            "Residential",
+            "Commercial",
+            "Warehouse",
+            "Retail",
+            "Industrial",
+            "Hotel",
+            "Villa"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.sira_project_type.sira_approval",
+          "label": "SIRA approval",
+          "options": [
+            "SIRA approval required",
+            "Existing SIRA license available",
+            "SIRA AMC required"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Camera compliance"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.camera_compliance.min_coverage",
+          "label": "Min. coverage",
+          "options": [
+            "Entrance coverage",
+            "Exit coverage",
+            "Parking coverage",
+            "Reception coverage",
+            "Cash handling area"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.camera_compliance.install_height",
+          "label": "Install height",
+          "options": [
+            "Standard height compliance",
+            "Tamper-proof mounting"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.camera_compliance.critical_areas",
+          "label": "Critical areas",
+          "options": [
+            "Lift lobby",
+            "Emergency exit",
+            "Fire exit",
+            "Server room",
+            "Main gate"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Recording compliance"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.recording_compliance.retention",
+          "label": "Retention",
+          "options": [
+            "30 days mandatory",
+            "60 days",
+            "90 days"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.recording_compliance.time_sync",
+          "label": "Time sync",
+          "options": [
+            "NTP enabled",
+            "Correct timestamp verification"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "cctv.recording_compliance.tamper_protection",
+          "label": "Tamper protection",
+          "options": [
+            "Video watermark enabled",
+            "Tamper alert enabled"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Control room requirement"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.control_room_requirement.security_room",
+          "label": "Security room",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.control_room_requirement.restricted_access",
+          "label": "Restricted access",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.control_room_requirement.monitor_visibility",
+          "label": "Monitor visibility",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "UPS & power compliance"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.ups_and_power_compliance.min_backup",
+          "label": "Min. backup",
+          "options": [
+            "30 minutes",
+            "1 hour",
+            "2 hours"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.ups_and_power_compliance.surge_protection",
+          "label": "Surge protection",
+          "options": [
+            "Required",
+            "Not required"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Cabling compliance"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.cabling_compliance.fire_rated_cable",
+          "label": "Fire rated cable",
+          "options": [
+            "Required",
+            "Not required"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.cabling_compliance.conduit_protection",
+          "label": "Conduit protection",
+          "options": [
+            "Required",
+            "Not required"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.cabling_compliance.outdoor_armored",
+          "label": "Outdoor armored",
+          "options": [
+            "Required",
+            "Not required"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Network security"
+        },
+        {
+          "t": "choice",
+          "key": "cctv.network_security.cctv_vlan",
+          "label": "CCTV VLAN",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.network_security.password_policy",
+          "label": "Password policy",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "cctv.network_security.internet_exposure",
+          "label": "Internet exposure",
+          "options": [
+            "Restricted",
+            "Not restricted"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site photos & uploads"
+        },
+        {
+          "t": "upload",
+          "key": "cctv.site_photos_and_uploads.attachments",
+          "label": "Attachments",
+          "typeOptions": [
+            "Site photos",
+            "Drawings",
+            "Existing reports",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "access",
+      "title": "Access control",
+      "subtitle": "Door details, readers, locks & compliance",
+      "icon": "🔒",
+      "tone": "amber",
+      "blocks": [
+        {
+          "t": "number",
+          "key": "access.no_of_doors_readers",
+          "label": "No. of doors / readers",
+          "placeholder": "0",
+          "required": true
+        },
+        {
+          "t": "heading",
+          "text": "Door details"
+        },
+        {
+          "t": "choice",
+          "key": "access.door_details.door_type",
+          "label": "Door type",
+          "options": [
+            "Wooden door",
+            "Glass door",
+            "Metal door",
+            "Sliding door"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.door_details.door_location",
+          "label": "Door location",
+          "options": [
+            "Main entrance",
+            "Office",
+            "Server room",
+            "Warehouse",
+            "Restricted area"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.door_details.indoor_outdoor",
+          "label": "Indoor / outdoor",
+          "options": [
+            "Indoor",
+            "Outdoor"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Reader & authentication"
+        },
+        {
+          "t": "choice",
+          "key": "access.reader_and_authentication.reader_type",
+          "label": "Reader type",
+          "options": [
+            "Card reader",
+            "Face recognition",
+            "Fingerprint",
+            "PIN keypad",
+            "Mobile access"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.reader_and_authentication.auth_method",
+          "label": "Auth method",
+          "options": [
+            "Card only",
+            "PIN only",
+            "Face only",
+            "Fingerprint only",
+            "Card + PIN",
+            "Card + face",
+            "Multi-factor"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.reader_and_authentication.intercom",
+          "label": "Intercom",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Lock & exit devices"
+        },
+        {
+          "t": "choice",
+          "key": "access.lock_and_exit_devices.lock_type",
+          "label": "Lock type",
+          "options": [
+            "Magnetic lock",
+            "Electric strike",
+            "Drop bolt",
+            "Motorized bolt"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.lock_and_exit_devices.exit_device",
+          "label": "Exit device",
+          "options": [
+            "Exit button",
+            "Touchless exit",
+            "Motion sensor",
+            "Break glass"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.lock_and_exit_devices.fail_mode",
+          "label": "Fail mode",
+          "options": [
+            "Fail safe",
+            "Fail secure"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Controller & connectivity"
+        },
+        {
+          "t": "choice",
+          "key": "access.controller_and_connectivity.controller_type",
+          "label": "Controller type",
+          "options": [
+            "Standalone",
+            "Network controller",
+            "Cloud managed"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.controller_and_connectivity.network",
+          "label": "Network",
+          "options": [
+            "TCP/IP",
+            "RS485",
+            "WiFi",
+            "PoE"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.controller_and_connectivity.integration",
+          "label": "Integration",
+          "options": [
+            "CCTV",
+            "HR / Attendance",
+            "Intercom",
+            "Fire alarm",
+            "Visitor management",
+            "None"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Power requirement"
+        },
+        {
+          "t": "choice",
+          "key": "access.power_requirement.ups_backup",
+          "label": "UPS backup",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.power_requirement.backup_duration",
+          "label": "Backup duration",
+          "options": [
+            "30 min",
+            "1 hour",
+            "2 hours",
+            "4 hours"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Installation details"
+        },
+        {
+          "t": "choice",
+          "key": "access.installation_details.mounting_type",
+          "label": "Mounting type",
+          "options": [
+            "Surface mount",
+            "Flush mount"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.installation_details.cable_type",
+          "label": "Cable type",
+          "options": [
+            "Cat6",
+            "Cat6A",
+            "Shielded cable",
+            "Composite cable"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access.installation_details.cable_route",
+          "label": "Cable route",
+          "options": [
+            "Ceiling",
+            "Conduit",
+            "Trunking",
+            "Underground"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Safety & compliance"
+        },
+        {
+          "t": "choice",
+          "key": "access.safety_and_compliance.fire_alarm_integration",
+          "label": "Fire alarm integration",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.safety_and_compliance.emergency_unlock",
+          "label": "Emergency unlock",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.safety_and_compliance.sira_compliance",
+          "label": "SIRA compliance",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site assessment"
+        },
+        {
+          "t": "choice",
+          "key": "access.site_assessment.door_closer",
+          "label": "Door closer",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.site_assessment.door_sensor",
+          "label": "Door sensor",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.site_assessment.glass_bracket",
+          "label": "Glass bracket",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.site_assessment.civil_work",
+          "label": "Civil work",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Accessories"
+        },
+        {
+          "t": "choice",
+          "key": "access.accessories.required",
+          "label": "Required",
+          "options": [
+            "Power supply unit",
+            "Exit button",
+            "Break glass",
+            "Door sensor",
+            "Bracket",
+            "Controller cabinet"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Testing & documentation"
+        },
+        {
+          "t": "choice",
+          "key": "access.testing_and_documentation.functional_testing",
+          "label": "Functional testing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.testing_and_documentation.user_training",
+          "label": "User training",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.testing_and_documentation.as_built_drawing",
+          "label": "As-built drawing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.testing_and_documentation.labeling",
+          "label": "Labeling",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site photos"
+        },
+        {
+          "t": "photos",
+          "key": "access.site_photos.photos",
+          "slots": [
+            {
+              "key": "door_photo",
+              "label": "Door photo"
+            },
+            {
+              "key": "existing_lock",
+              "label": "Existing lock"
+            },
+            {
+              "key": "reader_location",
+              "label": "Reader location"
+            },
+            {
+              "key": "controller_location",
+              "label": "Controller location"
+            },
+            {
+              "key": "cable_route",
+              "label": "Cable route"
+            }
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Future expansion"
+        },
+        {
+          "t": "choice",
+          "key": "access.future_expansion.spare_controller_capacity",
+          "label": "Spare controller capacity",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.future_expansion.additional_reader_provision",
+          "label": "Additional reader provision",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access.future_expansion.future_integration",
+          "label": "Future integration",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        }
+      ]
+    },
+    {
+      "key": "access_bio",
+      "title": "Access control + biometric system",
+      "subtitle": "Installation, authentication, workforce & compliance audit",
+      "icon": "🔓",
+      "tone": "amber",
+      "blocks": [
+        {
+          "t": "heading",
+          "text": "Installation details"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.installation_details.install_place",
+          "label": "Install place",
+          "options": [
+            "Main entrance",
+            "Reception",
+            "Office area",
+            "Server room",
+            "Warehouse",
+            "Restricted area"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.installation_details.install_type",
+          "label": "Install type",
+          "options": [
+            "Wall mount",
+            "Turnstile integration",
+            "Door access",
+            "Standalone device"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Door details"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.door_details.door_type",
+          "label": "Door type",
+          "options": [
+            "Wooden door",
+            "Glass door",
+            "Metal door",
+            "Sliding door"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.door_details.indoor_outdoor",
+          "label": "Indoor / outdoor",
+          "options": [
+            "Indoor",
+            "Outdoor"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Authentication method"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.authentication_method.device_type",
+          "label": "Device type",
+          "options": [
+            "RFID card",
+            "Fingerprint",
+            "Face recognition",
+            "PIN keypad",
+            "Face + card",
+            "Fingerprint + card",
+            "Face + fingerprint",
+            "Multi-factor auth"
+          ],
+          "multi": true
+        },
+        {
+          "t": "number",
+          "key": "access_bio.authentication_method.number_of_devices",
+          "label": "Number of devices",
+          "placeholder": "0",
+          "required": false
+        },
+        {
+          "t": "text",
+          "key": "access_bio.authentication_method.device_model",
+          "label": "Device model",
+          "placeholder": "e.g. ZKTeco K40, Hikvision DS-K1T341",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Access control hardware"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.access_control_hardware.lock_type",
+          "label": "Lock type",
+          "options": [
+            "Magnetic lock",
+            "Electric strike",
+            "Drop bolt",
+            "Motorized lock"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.access_control_hardware.exit_device",
+          "label": "Exit device",
+          "options": [
+            "Exit button",
+            "Touchless exit",
+            "Motion sensor",
+            "Emergency break glass"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.access_control_hardware.door_sensor",
+          "label": "Door sensor",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.access_control_hardware.door_closer",
+          "label": "Door closer",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Controller & connectivity"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.controller_and_connectivity.controller_type",
+          "label": "Controller type",
+          "options": [
+            "Standalone",
+            "Network controller",
+            "Cloud managed"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.controller_and_connectivity.network",
+          "label": "Network",
+          "options": [
+            "TCP/IP",
+            "WiFi",
+            "RS485",
+            "PoE"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.controller_and_connectivity.controller_location",
+          "label": "Controller location",
+          "options": [
+            "Rack room",
+            "Security room",
+            "Local cabinet"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Workforce & attendance"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.workforce_and_attendance.total_employees",
+          "label": "Total employees",
+          "options": [
+            "1–25",
+            "26–50",
+            "51–100",
+            "101–250",
+            "251–500",
+            "500+"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.workforce_and_attendance.attendance_tracking",
+          "label": "Attendance tracking",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.workforce_and_attendance.report_type",
+          "label": "Report type",
+          "options": [
+            "Daily",
+            "Weekly",
+            "Monthly",
+            "Shift based",
+            "Overtime"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.workforce_and_attendance.attendance_software",
+          "label": "Attendance software",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Integration requirement"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.integration_requirement.integration",
+          "label": "Integration",
+          "options": [
+            "HRMS",
+            "Payroll",
+            "CCTV",
+            "Visitor management",
+            "Fire alarm",
+            "Intercom",
+            "Active directory",
+            "ERP"
+          ],
+          "multi": true
+        },
+        {
+          "t": "text",
+          "key": "access_bio.integration_requirement.existing_hr_software",
+          "label": "Existing HR software",
+          "placeholder": "e.g. SAP, Oracle HCM, Zoho People",
+          "required": false
+        },
+        {
+          "t": "text",
+          "key": "access_bio.integration_requirement.software_integration_notes",
+          "label": "Software / integration notes",
+          "placeholder": "Any specific integration requirements",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Power requirement"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.power_requirement.ups_backup",
+          "label": "UPS backup",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.power_requirement.backup_duration",
+          "label": "Backup duration",
+          "options": [
+            "30 minutes",
+            "1 hour",
+            "2 hours",
+            "4 hours"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Safety & compliance"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.safety_and_compliance.fire_alarm_integration",
+          "label": "Fire alarm integration",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.safety_and_compliance.emergency_unlock",
+          "label": "Emergency unlock",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.safety_and_compliance.fail_mode",
+          "label": "Fail mode",
+          "options": [
+            "Fail safe",
+            "Fail secure"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.safety_and_compliance.sira_compliance",
+          "label": "SIRA compliance",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site assessment"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.site_assessment.network_point_available",
+          "label": "Network point available",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.site_assessment.power_point_available",
+          "label": "Power point available",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.site_assessment.cable_route",
+          "label": "Cable route",
+          "options": [
+            "Ceiling",
+            "Conduit",
+            "Trunking",
+            "Underground"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.site_assessment.civil_work_required",
+          "label": "Civil work required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.site_assessment.glass_door_bracket",
+          "label": "Glass door bracket",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Accessories"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.accessories.required",
+          "label": "Required",
+          "options": [
+            "RFID cards",
+            "Employee tags",
+            "Exit button",
+            "Break glass",
+            "Door sensor",
+            "Power supply",
+            "UPS",
+            "Controller cabinet",
+            "Turnstile"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Testing & documentation"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.testing_and_documentation.user_enrollment",
+          "label": "User enrollment",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.testing_and_documentation.admin_training",
+          "label": "Admin training",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.testing_and_documentation.functional_testing",
+          "label": "Functional testing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.testing_and_documentation.as_built_drawing",
+          "label": "As-built drawing",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.testing_and_documentation.labeling",
+          "label": "Labeling",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site photos"
+        },
+        {
+          "t": "photos",
+          "key": "access_bio.site_photos.photos",
+          "slots": [
+            {
+              "key": "door_photo",
+              "label": "Door photo"
+            },
+            {
+              "key": "install_location",
+              "label": "Install location"
+            },
+            {
+              "key": "existing_device",
+              "label": "Existing device"
+            },
+            {
+              "key": "reader_location",
+              "label": "Reader location"
+            },
+            {
+              "key": "controller_location",
+              "label": "Controller location"
+            },
+            {
+              "key": "network_point",
+              "label": "Network point"
+            },
+            {
+              "key": "power_point",
+              "label": "Power point"
+            }
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Future expansion"
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.future_expansion.additional_users",
+          "label": "Additional users",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.future_expansion.additional_doors",
+          "label": "Additional doors",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.future_expansion.additional_devices",
+          "label": "Additional devices",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "access_bio.future_expansion.multi_branch_sync",
+          "label": "Multi-branch sync",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        }
+      ]
+    },
+    {
+      "key": "biometric",
+      "title": "Biometric attendance system",
+      "subtitle": "Device specs, workforce, software & compliance audit",
+      "icon": "👤",
+      "tone": "green",
+      "blocks": [
+        {
+          "t": "heading",
+          "text": "Installation details"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.installation_details.install_place",
+          "label": "Install place",
+          "options": [
+            "Main entrance",
+            "Reception",
+            "Office area",
+            "Factory",
+            "Warehouse",
+            "Site office"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "biometric.installation_details.install_type",
+          "label": "Install type",
+          "options": [
+            "Wall mount",
+            "Desktop",
+            "Turnstile integration",
+            "Standalone kiosk"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Device specifications"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.device_specifications.device_type",
+          "label": "Device type",
+          "options": [
+            "Fingerprint",
+            "Face recognition",
+            "RFID card",
+            "Face + fingerprint",
+            "Face + card",
+            "Multi-biometric"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "biometric.device_specifications.fixed_or_portable",
+          "label": "Fixed or portable",
+          "options": [
+            "Fixed",
+            "Portable"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.device_specifications.connectivity",
+          "label": "Connectivity",
+          "options": [
+            "TCP/IP",
+            "WiFi",
+            "USB",
+            "4G SIM"
+          ],
+          "multi": true
+        },
+        {
+          "t": "number",
+          "key": "biometric.device_specifications.number_of_devices",
+          "label": "Number of devices",
+          "placeholder": "0",
+          "required": false
+        },
+        {
+          "t": "text",
+          "key": "biometric.device_specifications.device_model",
+          "label": "Device model",
+          "placeholder": "e.g. ZKTeco K40, Hikvision DS-K1T341",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Workforce & attendance"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.workforce_and_attendance.total_employees",
+          "label": "Total employees",
+          "options": [
+            "1–25",
+            "26–50",
+            "51–100",
+            "101–250",
+            "251–500",
+            "500+"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.workforce_and_attendance.report_type",
+          "label": "Report type",
+          "options": [
+            "Daily",
+            "Weekly",
+            "Monthly",
+            "Shift based",
+            "Overtime"
+          ],
+          "multi": true
+        },
+        {
+          "t": "choice",
+          "key": "biometric.workforce_and_attendance.shift_management",
+          "label": "Shift management",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.workforce_and_attendance.ot_calculation",
+          "label": "OT calculation",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Software & integration"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.software_and_integration.attendance_software",
+          "label": "Attendance software",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.software_and_integration.deployment_type",
+          "label": "Deployment type",
+          "options": [
+            "Cloud based",
+            "On-premise"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.software_and_integration.integration",
+          "label": "Integration",
+          "options": [
+            "HRMS",
+            "Payroll",
+            "ERP",
+            "Active directory",
+            "Visitor management"
+          ],
+          "multi": true
+        },
+        {
+          "t": "text",
+          "key": "biometric.software_and_integration.existing_hr_payroll_software",
+          "label": "Existing HR / payroll software",
+          "placeholder": "e.g. SAP, Oracle, Zoho People",
+          "required": false
+        },
+        {
+          "t": "text",
+          "key": "biometric.software_and_integration.software_integration_notes",
+          "label": "Software / integration notes",
+          "placeholder": "Any specific requirements",
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Network & power"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.network_and_power.network_point",
+          "label": "Network point",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.network_and_power.power_point",
+          "label": "Power point",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.network_and_power.ups_backup",
+          "label": "UPS backup",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.network_and_power.backup_duration",
+          "label": "Backup duration",
+          "options": [
+            "30 minutes",
+            "1 hour",
+            "2 hours",
+            "4 hours"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "User management"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.user_management.employee_enrollment",
+          "label": "Employee enrollment",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.user_management.multi_branch_support",
+          "label": "Multi-branch support",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.user_management.centralized_management",
+          "label": "Centralized management",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.user_management.mobile_app_access",
+          "label": "Mobile app access",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site assessment"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.site_assessment.indoor_outdoor",
+          "label": "Indoor / outdoor",
+          "options": [
+            "Indoor",
+            "Outdoor"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.site_assessment.civil_work_required",
+          "label": "Civil work required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.site_assessment.network_cabling_required",
+          "label": "Network cabling required",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.site_assessment.device_relocation_possible",
+          "label": "Device relocation possible",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Accessories"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.accessories.required",
+          "label": "Required",
+          "options": [
+            "RFID cards",
+            "Employee tags",
+            "UPS",
+            "Desktop stand",
+            "Wall mount bracket",
+            "Turnstile integration kit"
+          ],
+          "multi": true
+        },
+        {
+          "t": "heading",
+          "text": "Testing & documentation"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.testing_and_documentation.device_configuration",
+          "label": "Device configuration",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.testing_and_documentation.user_enrollment",
+          "label": "User enrollment",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.testing_and_documentation.admin_training",
+          "label": "Admin training",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.testing_and_documentation.attendance_policy_setup",
+          "label": "Attendance policy setup",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.testing_and_documentation.testing_and_handover",
+          "label": "Testing & handover",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "heading",
+          "text": "Site photos"
+        },
+        {
+          "t": "photos",
+          "key": "biometric.site_photos.photos",
+          "slots": [
+            {
+              "key": "install_location",
+              "label": "Install location"
+            },
+            {
+              "key": "existing_device",
+              "label": "Existing device"
+            },
+            {
+              "key": "network_point",
+              "label": "Network point"
+            },
+            {
+              "key": "power_point",
+              "label": "Power point"
+            },
+            {
+              "key": "employee_entry",
+              "label": "Employee entry"
+            }
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Future expansion"
+        },
+        {
+          "t": "choice",
+          "key": "biometric.future_expansion.additional_users",
+          "label": "Additional users",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.future_expansion.additional_devices",
+          "label": "Additional devices",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.future_expansion.additional_branches",
+          "label": "Additional branches",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        },
+        {
+          "t": "choice",
+          "key": "biometric.future_expansion.cloud_migration",
+          "label": "Cloud migration",
+          "options": [
+            "Yes",
+            "No"
+          ],
+          "multi": false
+        }
+      ]
+    },
+    {
+      "key": "fiber",
+      "title": "Fiber requirement",
+      "subtitle": "Route, termination, testing & outdoor checks",
+      "icon": "🔲",
+      "tone": "teal",
+      "blocks": [
+        {
+          "t": "heading",
+          "text": "General"
+        },
+        {
+          "t": "text",
+          "key": "fiber.general.purpose_of_fiber_link",
+          "label": "Purpose of fiber link",
+          "placeholder": "e.g. MDF to IDF backbone, building interconnect",
+          "required": false
+        },
+        {
+          "t": "select",
+          "key": "fiber.general.required_bandwidth",
+          "label": "Required bandwidth",
+          "options": [
+            "1 Gbps",
+            "10 Gbps",
+            "40 Gbps",
+            "100 Gbps",
+            "Other"
+          ],
+          "required": false
+        },
+        {
+          "t": "choice",
+          "key": "fiber.general.fiber_mode",
+          "label": "Fiber mode",
+          "options": [
+            "Single mode (SM)",
+            "Multi mode (MM)"
+          ],
+          "multi": false,
+          "required": false
+        },
+        {
+          "t": "select",
+          "key": "fiber.general.required_core_count",
+          "label": "Required core count",
+          "options": [
+            "2 core",
+            "4 core",
+            "6 core",
+            "8 core",
+            "12 core",
+            "24 core",
+            "48 core",
+            "Other"
+          ],
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Route details"
+        },
+        {
+          "t": "routes",
+          "key": "fiber.route_details.fiber_routes",
+          "placeholders": [
+            [
+              "e.g. MDF",
+              "e.g. IDF"
+            ],
+            [
+              "e.g. Building A",
+              "e.g. Building B"
+            ]
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Cable path check"
+        },
+        {
+          "t": "check",
+          "key": "fiber.cable_path_check.existing_tray_available",
+          "label": "Existing tray available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.cable_path_check.conduit_available",
+          "label": "Conduit available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.cable_path_check.ceiling_route",
+          "label": "Ceiling route",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.cable_path_check.underground_duct",
+          "label": "Underground duct",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.cable_path_check.riser_access",
+          "label": "Riser access",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Physical inspection"
+        },
+        {
+          "t": "check",
+          "key": "fiber.physical_inspection.tray_capacity",
+          "label": "Tray capacity",
+          "options": [
+            "OK",
+            "Full",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.physical_inspection.sharp_bends",
+          "label": "Sharp bends",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.physical_inspection.water_leakage_risk",
+          "label": "Water leakage risk",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.physical_inspection.outdoor_exposure",
+          "label": "Outdoor exposure",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.physical_inspection.civil_work_required",
+          "label": "Civil work required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Rack & termination"
+        },
+        {
+          "t": "check",
+          "key": "fiber.rack_and_termination.rack_space_available",
+          "label": "Rack space available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.rack_and_termination.fiber_patch_panel_required",
+          "label": "Fiber patch panel required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.rack_and_termination.splicing_required",
+          "label": "Splicing required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "choice",
+          "key": "fiber.rack_and_termination.connector_type",
+          "label": "Connector type",
+          "options": [
+            "LC",
+            "SC",
+            "LC/SC mixed",
+            "FC"
+          ],
+          "multi": false,
+          "required": false
+        },
+        {
+          "t": "heading",
+          "text": "Testing requirement"
+        },
+        {
+          "t": "check",
+          "key": "fiber.testing_requirement.otdr_test",
+          "label": "OTDR test",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.testing_requirement.power_meter_test",
+          "label": "Power meter test",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.testing_requirement.labeling_required",
+          "label": "Labeling required",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.testing_requirement.as_built_drawing_required",
+          "label": "As-built drawing required",
+          "options": [
+            "Y",
+            "N"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Outdoor fiber check (if applicable)"
+        },
+        {
+          "t": "check",
+          "key": "fiber.outdoor_fiber_check_if_applicable.hdpe_duct_available",
+          "label": "HDPE duct available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.outdoor_fiber_check_if_applicable.armored_cable_required",
+          "label": "Armored cable required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.outdoor_fiber_check_if_applicable.manhole_availability",
+          "label": "Manhole availability",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.outdoor_fiber_check_if_applicable.waterproof_joint_closure_required",
+          "label": "Waterproof joint closure required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Equipment requirement"
+        },
+        {
+          "t": "qtyList",
+          "key": "fiber.equipment_requirement.equipment",
+          "items": [
+            {
+              "key": "sfp_modules",
+              "label": "SFP modules"
+            },
+            {
+              "key": "fiber_patch_panel",
+              "label": "Fiber patch panel"
+            },
+            {
+              "key": "odf",
+              "label": "ODF"
+            },
+            {
+              "key": "patch_cords",
+              "label": "Patch cords"
+            },
+            {
+              "key": "pigtails",
+              "label": "Pigtails"
+            }
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Safety & compliance"
+        },
+        {
+          "t": "check",
+          "key": "fiber.safety_and_compliance.proper_bend_radius",
+          "label": "Proper bend radius",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.safety_and_compliance.fire_stopping_required",
+          "label": "Fire stopping required",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.safety_and_compliance.cable_protection",
+          "label": "Cable protection",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "check",
+          "key": "fiber.safety_and_compliance.earthing_available",
+          "label": "Earthing available",
+          "options": [
+            "Y",
+            "N",
+            "N/A"
+          ]
+        },
+        {
+          "t": "heading",
+          "text": "Site photos"
+        },
+        {
+          "t": "photos",
+          "key": "fiber.site_photos.photos",
+          "slots": [
+            {
+              "key": "rack_area",
+              "label": "Rack area"
+            },
+            {
+              "key": "cable_route",
+              "label": "Cable route"
+            },
+            {
+              "key": "mdf_idf_room",
+              "label": "MDF/IDF room"
+            },
+            {
+              "key": "outdoor_route",
+              "label": "Outdoor route"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "material",
+      "title": "Material",
+      "subtitle": "Miscellaneous accessories & consumables",
+      "icon": "📦",
+      "tone": "orange",
+      "blocks": [
+        {
+          "t": "materials",
+          "key": "material.items",
+          "defaults": [
+            "RCA Male Connector",
+            "Insulation tape",
+            "XLR Connector (male and female) Neutrik brand",
+            "Spiral black 10mm - 10m",
+            "RCA to Aux cable 1.5mtr",
+            "3.5mm jack male",
+            "RS 232 connector (male and female)",
+            "XLR Connector (male and female)",
+            "Brush Panel"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "manpower",
+      "title": "Manpower plan",
+      "subtitle": "Roles, headcount & schedule",
+      "icon": "👥",
+      "tone": "slate",
+      "blocks": [
+        {
+          "t": "manpower",
+          "key": "manpower.resources",
+          "roles": [
+            "ELV Technician",
+            "Network Engineer",
+            "Project Manager",
+            "Site Engineer",
+            "Cabling Technician",
+            "Supervisor",
+            "Helper",
+            "Other"
+          ]
+        }
+      ]
+    },
+    {
+      "key": "site",
+      "title": "Site conditions & notes",
+      "subtitle": "Location, power & surveyor info",
+      "icon": "📍",
+      "tone": "teal",
+      "blocks": [
+        {
+          "t": "text",
+          "key": "site.site_address",
+          "label": "Site address",
+          "placeholder": "Building name, floor, area, emirate",
+          "required": true
+        },
+        {
+          "t": "select",
+          "key": "site.power_availability",
+          "label": "Power availability",
+          "options": [
+            "220V available near rack",
+            "UPS provision needed",
+            "Generator backup needed"
+          ],
+          "required": true
+        },
+        {
+          "t": "text",
+          "key": "site.surveyed_by",
+          "label": "Surveyed by",
+          "placeholder": "GS IT engineer name",
+          "required": true
+        },
+        {
+          "t": "textarea",
+          "key": "site.existing_infrastructure_notes",
+          "label": "Existing infrastructure notes",
+          "placeholder": "Any existing cabling, racks, or ELV systems to retain or extend…",
+          "required": false
+        },
+        {
+          "t": "textarea",
+          "key": "site.additional_remarks",
+          "label": "Additional remarks",
+          "placeholder": "Special requirements, risks, client requests…",
+          "required": false
+        }
+      ]
+    }
+  ]
+}
