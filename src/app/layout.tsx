@@ -20,6 +20,9 @@ export const viewport: Viewport = {
     { media: "(prefers-color-scheme: light)", color: "#e8edf5" },
     { media: "(prefers-color-scheme: dark)", color: "#04070e" },
   ],
+  // The app draws its own light and dark themes. Declaring both tells phone browsers not to apply their
+  // automatic "dark mode for websites", which would dim the white logo and the blue accents.
+  colorScheme: "light dark",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",

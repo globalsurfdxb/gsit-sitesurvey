@@ -63,8 +63,9 @@
   --font: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --bar-h: 84px;
-  color-scheme: light;
+  color-scheme: light dark; /* follows the phone; the explicit overrides below pin it when the theme is chosen in Account */
 }
+:root[data-theme="light"] { color-scheme: light; }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
