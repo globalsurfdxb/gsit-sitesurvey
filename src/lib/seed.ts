@@ -1,10 +1,12 @@
 import type { Db } from "mongodb";
+import { AV_DEPARTMENT_ID, AV_FORM, AV_FORM_ID, ICT_DEPARTMENT_ID, ICT_FORM, ICT_FORM_ID } from "./dept-forms";
 import { ELV_DEPARTMENT_ID, ELV_FORM, ELV_FORM_ID } from "./elv-form";
 
 /**
  * Runs once per server process (after indexes). Idempotent and never overwrites an administrator's edits.
  *
  *  1. First start only: create the ELV, AV and ICT departments and the ELV form (the original checklist).
+ *     Then once (also on databases that predate it): a starter form for AV and for ICT, if they have none.
  *  2. Every start: bring accounts and surveys from before departments existed up to date.
  *       - role "admin" → "super_admin", "engineer" → "user"
  *       - engineers with no memberships field → members of ELV (where all surveys used to belong)
@@ -39,6 +41,26 @@ export async function ensureSeed(db: Db) {
       { upsert: true },
     );
     await meta.updateOne({ _id: "seed-departments" }, { $setOnInsert: { at: now } }, { upsert: true });
+  }
+
+  // Starter forms for AV and ICT. Once only, and only for a department that exists and has no form yet,
+  // so nothing an administrator built (or removed) is ever replaced.
+  if (!(await meta.findOne({ _id: "seed-av-ict-forms" }))) {
+    const now = Date.now();
+    const forms = db.collection("forms");
+    for (const [departmentId, id, form] of [
+      [AV_DEPARTMENT_ID, AV_FORM_ID, AV_FORM],
+      [ICT_DEPARTMENT_ID, ICT_FORM_ID, ICT_FORM],
+    ] as const) {
+      if (!(await db.collection("departments").findOne({ _id: departmentId as never }))) continue;
+      if (await forms.findOne({ departmentId })) continue;
+      await forms.updateOne(
+        { _id: id as never },
+        { $setOnInsert: { departmentId, name: form.title, description: form.subtitle, status: "active", version: 1, schema: JSON.parse(JSON.stringify(form)), createdAt: now, updatedAt: now, updatedBy: "system" } },
+        { upsert: true },
+      );
+    }
+    await meta.updateOne({ _id: "seed-av-ict-forms" }, { $setOnInsert: { at: now } }, { upsert: true });
   }
 
   const users = db.collection("users");
