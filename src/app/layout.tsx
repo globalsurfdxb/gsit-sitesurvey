@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: "Offline-first site surveys for GS IT departments: ELV, AV, ICT and more.",
   applicationName: "Site Survey",
   appleWebApp: { capable: true, title: "Site Survey", statusBarStyle: "default" },
-  icons: { icon: "/icons/192", apple: "/icons/192" },
+  icons: { icon: [{ url: "/icons/192", sizes: "192x192", type: "image/png" }], apple: [{ url: "/icons/180", sizes: "180x180", type: "image/png" }] },
   formatDetection: { telephone: false },
 };
 

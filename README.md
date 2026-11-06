@@ -23,6 +23,27 @@ Create logins with `npm run seed:user -- <email> <password> "<name>" [super_admi
 
 PWA install requires HTTPS in production (localhost is exempt).
 
+## Test the online deployment (Vercel)
+
+1. **Vercel → Settings → Environment Variables** (Production): `MONGODB_URI`, `MONGODB_DB` (`site_survey`) and `AUTH_SECRET`
+   (32+ random characters). Redeploy after changing them.
+2. **MongoDB Atlas → Network Access**: allow Vercel to connect (`0.0.0.0/0`, since Vercel has no fixed addresses).
+3. **Create the test logins** on that same database, from this project folder (set the variables in the shell; they win over `.env.local`):
+
+   ```powershell
+   $env:MONGODB_URI="mongodb+srv://<user>:<password>@<cluster>.mongodb.net/"; $env:MONGODB_DB="site_survey"
+   npm run seed:test -- "Test@Pass-2026"
+   ```
+
+   This creates `muneer@gs-it.ae` (super admin), `teamlead@gs-it.ae` (lead of ELV) and `engineer@gs-it.ae` (ELV member), all with the
+   password you pass (10+ characters). It prints the database host it used. Remove the accounts when testing is over.
+4. **Walk through it** on a phone, installed from Chrome:
+   - Member: sign in, **+** → start a survey, fill a few fields, add a photo. Turn on airplane mode, keep editing, turn it off and
+     check the sync chip reaches *All synced*.
+   - Team lead: *Team* → open the member → the survey opens read-only. *Forms* → edit the ELV form → Save.
+   - Super admin: *Departments* → add a department and a person; confirm the member sees the new form after the next sync.
+   - Sign in on two devices as the same member, edit the same survey on both, and confirm the conflict is reported instead of overwritten.
+
 ## Departments, roles and forms
 
 The first start creates three departments (**ELV**, **AV**, **ICT**) and loads the original checklist as the ELV form.

@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "seed:user": "tsx --env-file=.env.local scripts/seed-user.ts",
+    "seed:test": "tsx --env-file=.env.local scripts/seed-test-accounts.ts",
     "extract:schema": "tsx scripts/extract-schema.ts",
     "typecheck": "tsc --noEmit"
   },
