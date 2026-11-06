@@ -1,11 +1,12 @@
 import { ImageResponse } from "next/og";
+import { LOGO_BLUE, LOGO_INK } from "@/components/brand/logo-paths";
 
-// PWA icons rendered at build time, so the repo needs no binary assets.
-// "maskable" keeps the logo inside the 80% safe zone because Android crops it to a shape.
+// PWA icons rendered at build time from the logo's own geometry, so the repo needs no binary assets.
+// "maskable" keeps the mark inside the 80% safe zone because Android crops it to a shape.
 const VARIANTS = {
   "192": { size: 192, safe: 1 },
   "512": { size: 512, safe: 1 },
-  "512-maskable": { size: 512, safe: 0.72 },
+  "512-maskable": { size: 512, safe: 0.74 },
 } as const;
 
 export function generateStaticParams() {
@@ -16,7 +17,12 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
   const { name } = await params;
   const v = VARIANTS[name as keyof typeof VARIANTS];
   if (!v) return new Response("Not found", { status: 404 });
-  const font = Math.round(v.size * 0.3 * v.safe);
+
+  const tileW = Math.round(v.size * 0.7 * v.safe);
+  const tileH = Math.round(v.size * 0.42 * v.safe);
+  const markW = Math.round(tileW * 0.66);
+  const markH = Math.round((markW * 41) / 87); // "GS" + blue square: viewBox 87 × 41
+
   return new ImageResponse(
     (
       <div
@@ -26,25 +32,30 @@ export async function GET(_req: Request, { params }: { params: Promise<{ name: s
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(135deg, #0f1f3d 0%, #1e3456 100%)",
+          background:
+            "radial-gradient(circle at 18% 12%, rgba(42,115,221,0.85) 0%, rgba(17,74,159,0.35) 38%, rgba(17,74,159,0) 68%), radial-gradient(circle at 92% 100%, rgba(122,121,124,0.45) 0%, rgba(122,121,124,0) 55%), linear-gradient(160deg, #0b1a36 0%, #04070e 100%)",
         }}
       >
+        {/* glass tile */}
         <div
           style={{
+            width: tileW,
+            height: tileH,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            padding: `${Math.round(v.size * 0.06 * v.safe)}px ${Math.round(v.size * 0.1 * v.safe)}px`,
-            border: `${Math.max(2, Math.round(v.size * 0.012))}px solid rgba(245,158,11,0.5)`,
-            borderRadius: Math.round(v.size * 0.1),
-            background: "rgba(245,158,11,0.12)",
-            color: "#f59e0b",
-            fontSize: font,
-            fontWeight: 700,
-            letterSpacing: 2,
+            borderRadius: Math.round(v.size * 0.12 * v.safe),
+            border: `${Math.max(2, Math.round(v.size * 0.006))}px solid rgba(255,255,255,0.28)`,
+            background: "linear-gradient(145deg, rgba(255,255,255,0.20), rgba(255,255,255,0.06))",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.45)",
           }}
         >
-          GS IT
+          <svg width={markW} height={markH} viewBox="0 0 87 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {LOGO_INK.map((d) => (
+              <path key={d} d={d} fill="#ffffff" />
+            ))}
+            <path d={LOGO_BLUE} fill="#4b94ff" />
+          </svg>
         </div>
       </div>
     ),

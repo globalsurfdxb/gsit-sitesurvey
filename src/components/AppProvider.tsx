@@ -3,7 +3,8 @@
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { countPendingFiles, listAllSurveys, onLocalChange } from "@/lib/local-db";
-import { api, ApiError, syncNow } from "@/lib/sync";
+import { canEditSurvey, normalizeRole } from "@/lib/access";
+import { api, ApiError, refreshCatalog, syncNow } from "@/lib/sync";
 import type { SessionUser } from "@/lib/types";
 
 export type SyncStatus = "idle" | "syncing" | "ok" | "offline" | "auth" | "error";
@@ -17,6 +18,8 @@ interface AppCtx {
   pending: number;
   /** Sync soon (debounced). Pass `now` for an immediate, user-triggered sync. */
   requestSync: (now?: boolean) => void;
+  /** Re-fetch departments, forms and this account's roles (call after changing any of them). */
+  reloadCatalog: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -39,11 +42,15 @@ function subscribeOnline(cb: () => void) {
 const USER_CACHE = "gs_user";
 const readCachedUser = (): SessionUser | null => {
   try {
-    return JSON.parse(localStorage.getItem(USER_CACHE) ?? "null");
+    const u = JSON.parse(localStorage.getItem(USER_CACHE) ?? "null") as (Omit<SessionUser, "role" | "memberships"> & { role: unknown; memberships?: SessionUser["memberships"] }) | null;
+    // Caches written before departments existed lack memberships and use the old role names.
+    return u ? { ...u, role: normalizeRole(u.role), memberships: u.memberships ?? [] } : null;
   } catch {
     return null;
   }
 };
+
+const sameUser = (a: SessionUser | null, b: SessionUser | null) => JSON.stringify(a) === JSON.stringify(b);
 
 export function AppProvider({ children }: { children: ReactNode }) {
   const router = useRouter();
@@ -74,8 +81,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
       .catch((e) => {
         if (!live) return;
         if (e instanceof ApiError && e.status === 401) {
+          // The cookie is still a valid signature but its user is gone (deleted, or a different database).
+          // Clear it first, otherwise the proxy would bounce /login straight back to "/".
           localStorage.removeItem(USER_CACHE);
-          router.replace("/login");
+          api("/api/auth/logout", { method: "POST" })
+            .catch(() => undefined)
+            .finally(() => router.replace("/login"));
           return;
         }
         const cached = readCachedUser(); // network down: keep working with the cached identity
@@ -91,19 +102,36 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const refreshPending = useCallback(async () => {
     const u = userRef.current;
     if (!u) return setPending(0);
-    const s = (await listAllSurveys()).filter((x) => x.ownerId === u.id || u.role === "admin");
-    setPending(s.filter((x) => x.dirty || x.deleted).length + (await countPendingFiles()));
+    const s = (await listAllSurveys()).filter((x) => canEditSurvey(u, x));
+    setPending(s.filter((x) => (x.dirty && !x.rejected) || x.deleted).length + (await countPendingFiles()));
   }, []);
+
+  // Roles and departments can change while the app is open; pick up the fresh account details.
+  const adopt = useCallback((fresh: SessionUser | undefined | null) => {
+    if (!fresh || sameUser(fresh, userRef.current)) return;
+    userRef.current = fresh;
+    setUser(fresh);
+    try {
+      localStorage.setItem(USER_CACHE, JSON.stringify(fresh));
+    } catch {
+      /* cache is a nicety */
+    }
+  }, []);
+
+  const reloadCatalog = useCallback(async () => {
+    adopt((await refreshCatalog()).user);
+  }, [adopt]);
 
   const runSync = useCallback(async () => {
     const u = userRef.current;
     if (!u || !navigator.onLine) return;
     setStatus("syncing");
     const r = await syncNow(u);
+    adopt(r.user);
     setStatus(r.ok ? "ok" : r.auth ? "auth" : r.offline ? "offline" : "error");
     if (r.ok) setLastSync(Date.now());
     refreshPending();
-  }, [refreshPending]);
+  }, [refreshPending, adopt]);
 
   const requestSync = useCallback(
     (now?: boolean) => {
@@ -145,8 +173,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   }, [router]);
 
   const value = useMemo(
-    () => ({ user, ready, online, status, lastSync, pending, requestSync, logout }),
-    [user, ready, online, status, lastSync, pending, requestSync, logout],
+    () => ({ user, ready, online, status, lastSync, pending, requestSync, reloadCatalog, logout }),
+    [user, ready, online, status, lastSync, pending, requestSync, reloadCatalog, logout],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

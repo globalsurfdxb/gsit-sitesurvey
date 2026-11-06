@@ -1,17 +1,48 @@
-// ───────────── Survey schema (generated into src/data/survey-schema.json) ─────────────
+// ───────────── Form definition ─────────────
+// The ELV checklist is generated into src/data/survey-schema.json and seeded as the ELV form.
+// Every department's forms use this same shape and live in MongoDB (edited in the form builder).
 
-export interface SurveySchema {
+/** Fields the app uses for list titles and the "new survey" sheet. All optional. */
+export interface FormMeta {
+  /** Reference / deal / ticket number. */
+  refKey?: string;
+  /** Client or company name (second half of the title). */
+  clientKey?: string;
+  /** Site address or location (list subtitle). */
+  siteKey?: string;
+  /** Filled with the signed-in user's name when a survey starts. */
+  engineerKey?: string;
+  /** Survey date (list subtitle). */
+  dateKey?: string;
+}
+
+/** always = cannot be left out · default = optional, on at start · optional = optional, off at start. */
+export type SectionScope = "always" | "default" | "optional";
+
+export interface FormSchema {
   title: string;
   subtitle: string;
   sections: SectionDef[];
+  meta: FormMeta;
 }
+/** @deprecated use FormSchema */
+export type SurveySchema = FormSchema;
 
 export interface SectionDef {
   key: string;
   title: string;
   subtitle: string;
-  icon: string;
+  /** Legacy emoji from the HTML source; the UI uses `iconName`. */
+  icon?: string;
+  /** Name from the app's icon set. */
+  iconName?: string;
   tone: string;
+  /** Short label for step chips. */
+  short?: string;
+  /** Defaults to "always". */
+  scope?: SectionScope;
+  /** Supporting section (materials, manpower): not counted as a surveyed "system". */
+  support?: boolean;
   blocks: BlockDef[];
 }
 
@@ -69,13 +100,67 @@ export type SurveyStatus = "draft" | "submitted";
 
 // ───────────── Users / API shapes ─────────────
 
-export type Role = "engineer" | "admin";
+/** Account-wide role. Everything else comes from department membership. */
+export type Role = "super_admin" | "user";
+export type DeptRole = "lead" | "member";
+
+export interface Membership {
+  departmentId: string;
+  role: DeptRole;
+}
 
 export interface SessionUser {
   id: string;
   name: string;
   email: string;
   role: Role;
+  memberships: Membership[];
+}
+
+/** A department as the signed-in user may see it. */
+export interface DepartmentInfo {
+  id: string;
+  name: string;
+  code: string;
+  description: string;
+  tone: string;
+  iconName: string;
+  createdAt: number;
+  leadId?: string;
+  leadName?: string;
+  leadEmail?: string;
+  memberCount: number;
+  /** Only sent to people who manage the department (its lead, super admins). */
+  members?: TeamMember[];
+  /** Survey totals for the whole department. */
+  stats: { total: number; draft: number; submitted: number; lastActivity?: number };
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  email: string;
+  role: DeptRole;
+  joinedAt?: number;
+}
+
+export type FormStatus = "active" | "archived";
+
+export interface FormInfo {
+  id: string;
+  departmentId: string;
+  name: string;
+  description: string;
+  status: FormStatus;
+  version: number;
+  updatedAt: number;
+  schema: FormSchema;
+}
+
+export interface Catalog {
+  departments: DepartmentInfo[];
+  forms: FormInfo[];
+  fetchedAt: number;
 }
 
 export interface SurveySummary {
@@ -85,12 +170,16 @@ export interface SurveySummary {
   rev: number;
   updatedAt: number;
   ownerName: string;
+  departmentId: string;
+  formId: string;
 }
 
 export interface ServerSurvey {
   id: string;
   ownerId: string;
   ownerName: string;
+  departmentId: string;
+  formId: string;
   status: SurveyStatus;
   values: Values;
   rev: number;

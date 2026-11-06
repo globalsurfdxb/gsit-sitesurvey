@@ -1,10 +1,13 @@
 import { openDB, type DBSchema, type IDBPDatabase } from "idb";
-import type { SurveyStatus, Values } from "./types";
+import type { Catalog, SurveyStatus, Values } from "./types";
 
 export interface LocalSurvey {
   id: string;
   ownerId: string;
   ownerName?: string;
+  /** Absent on surveys saved before departments existed: treated as the ELV department and form. */
+  departmentId?: string;
+  formId?: string;
   values: Values;
   status: SurveyStatus;
   /** Last server revision this device has seen (0 = never synced). */
@@ -17,6 +20,8 @@ export interface LocalSurvey {
   conflict?: { serverRev: number };
   /** Tombstone: delete on the server at next sync, then drop locally. */
   deleted?: boolean;
+  /** The server refused this survey for good (e.g. the author left the department). Not retried. */
+  rejected?: string;
 }
 
 export interface LocalFile {
@@ -32,17 +37,22 @@ export interface LocalFile {
 
 interface Schema extends DBSchema {
   surveys: { key: string; value: LocalSurvey };
+  /** Small cached documents, e.g. the departments + forms catalog. */
+  meta: { key: string; value: unknown };
   files: { key: string; value: LocalFile; indexes: { bySurvey: string; byUploaded: number } };
 }
 
 let dbp: Promise<IDBPDatabase<Schema>> | null = null;
 function db() {
-  return (dbp ??= openDB<Schema>("gs-site-survey", 1, {
-    upgrade(d) {
-      d.createObjectStore("surveys", { keyPath: "id" });
-      const f = d.createObjectStore("files", { keyPath: "id" });
-      f.createIndex("bySurvey", "surveyId");
-      f.createIndex("byUploaded", "uploaded");
+  return (dbp ??= openDB<Schema>("gs-site-survey", 2, {
+    upgrade(d, oldVersion) {
+      if (oldVersion < 1) {
+        d.createObjectStore("surveys", { keyPath: "id" });
+        const f = d.createObjectStore("files", { keyPath: "id" });
+        f.createIndex("bySurvey", "surveyId");
+        f.createIndex("byUploaded", "uploaded");
+      }
+      if (oldVersion < 2) d.createObjectStore("meta"); // v2: cached catalog
     },
   }));
 }
@@ -115,4 +125,13 @@ export async function markFileUploaded(id: string) {
 }
 export async function countPendingFiles(): Promise<number> {
   return (await db()).countFromIndex("files", "byUploaded", 0);
+}
+
+// ── catalog (departments + forms) ──
+export async function getCatalog(): Promise<Catalog | null> {
+  return ((await (await db()).get("meta", "catalog")) as Catalog | undefined) ?? null;
+}
+export async function putCatalog(c: Catalog) {
+  await (await db()).put("meta", c, "catalog");
+  emitChange();
 }

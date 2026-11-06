@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { canEditSurvey } from "@/lib/access";
 import { HttpError, json, route } from "@/lib/api";
 import { extOf, FILE_TYPES, MAX_FILE_BYTES } from "@/lib/files";
 import { filesBucket, fileDocs, surveys, type FileMeta } from "@/lib/mongo";
@@ -25,12 +26,12 @@ export const POST = route(async (req, { user }) => {
 
   const survey = await (await surveys()).findOne({ _id: surveyId });
   if (!survey) throw new HttpError(409, "Sync the survey before its files", { code: "no-survey" });
-  if (survey.ownerId !== user.id && user.role !== "admin") throw new HttpError(403, "Not your survey");
+  if (!canEditSurvey(user, survey)) throw new HttpError(403, "Only the owner can add files to this survey");
   if (!collectFileRefs(survey.values).some((f) => f.id === id)) throw new HttpError(409, "File is not referenced by the survey", { code: "unreferenced" });
 
   if (await (await fileDocs()).findOne({ _id: id }, { projection: { _id: 1 } })) return json({ ok: true, existing: true });
 
-  const metadata: FileMeta = { surveyId, ownerId: survey.ownerId, contentType: type.mime };
+  const metadata: FileMeta = { surveyId, ownerId: survey.ownerId, departmentId: survey.departmentId, contentType: type.mime };
   const bytes = Buffer.from(await file.arrayBuffer());
   const bucket = await filesBucket();
   const stream = bucket.openUploadStreamWithId(id as never, file.name.slice(0, 200), { metadata });

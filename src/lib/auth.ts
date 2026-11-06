@@ -1,8 +1,9 @@
 import { jwtVerify, SignJWT } from "jose";
 import { ObjectId } from "mongodb";
 import { cookies } from "next/headers";
+import { normalizeRole } from "./access";
 import type { SessionUser } from "./types";
-import { users } from "./mongo";
+import { users, type UserDoc } from "./mongo";
 
 export const SESSION_COOKIE = "gs_session";
 export const SESSION_DAYS = 30;
@@ -26,7 +27,8 @@ export async function verifySession(token: string): Promise<SessionUser | null> 
   try {
     const { payload } = await jwtVerify(token, secret(), { algorithms: ["HS256"] });
     if (!payload.sub) return null;
-    return { id: payload.sub, name: String(payload.name), email: String(payload.email), role: payload.role === "admin" ? "admin" : "engineer" };
+    // Memberships aren't in the token (they change); getCurrentUser reads them from the database.
+    return { id: payload.sub, name: String(payload.name), email: String(payload.email), role: normalizeRole(payload.role), memberships: [] };
   } catch {
     return null;
   }
@@ -51,5 +53,9 @@ export async function getCurrentUser(): Promise<SessionUser | null> {
   if (!session || !ObjectId.isValid(session.id)) return null;
   const doc = await (await users()).findOne({ _id: new ObjectId(session.id) });
   if (!doc) return null;
-  return { id: doc._id.toHexString(), name: doc.name, email: doc.email, role: doc.role };
+  return toSessionUser(doc);
+}
+
+export function toSessionUser(doc: UserDoc): SessionUser {
+  return { id: doc._id.toHexString(), name: doc.name, email: doc.email, role: normalizeRole(doc.role), memberships: doc.memberships ?? [] };
 }

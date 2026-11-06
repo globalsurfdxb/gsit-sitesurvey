@@ -1,18 +1,46 @@
-import raw from "@/data/survey-schema.json";
-import type { BlockDef, CameraSet, FileRef, SectionDef, SessionUser, SurveySchema, UploadValue, Values } from "./types";
-
-export const schema = raw as unknown as SurveySchema;
+import { ELV_FORM, ELV_FORM_ID } from "./elv-form";
+import type { BlockDef, CameraSet, FileRef, FormSchema, SectionDef, SessionUser, UploadValue, Values } from "./types";
 
 export const SKIPPED_KEY = "_skipped";
 
-// Keys the app relies on for list titles / header. They come from the generated schema.
-const K = {
-  dealId: "client.gs_it_internal.deal_id",
-  engineer: "client.gs_it_internal.survey_engineer",
-  date: "client.gs_it_internal.survey_date",
-  clientName: "client.client_details.client_name",
-  siteAddress: "site.site_address",
-};
+// ───────────── Forms ─────────────
+// Every function below takes the form (department-specific, loaded from the catalog) explicitly.
+
+/**
+ * Find a survey's form among the known ones. Surveys from before departments existed (no formId)
+ * and the built-in ELV form fall back to the bundled copy, so they open even before the catalog loads.
+ */
+export function resolveForm(forms: ReadonlyMap<string, FormSchema>, formId: string | undefined): FormSchema | undefined {
+  const id = formId || ELV_FORM_ID;
+  return forms.get(id) ?? (id === ELV_FORM_ID ? ELV_FORM : undefined);
+}
+
+/** Name of a section's icon (validated at render time by asIconName). */
+/** Look a field up by its key (labels and placeholders for the new-survey sheet). */
+export function findBlock(form: FormSchema, key: string | undefined): BlockDef | undefined {
+  if (!key) return undefined;
+  for (const s of form.sections) for (const b of s.blocks) if ("key" in b && b.key === key) return b;
+  return undefined;
+}
+
+export const sectionIcon =(s: SectionDef): string => s.iconName ?? "clipboard";
+export const shortOf = (s: SectionDef) => s.short?.trim() || s.title.split(/\s+/).slice(0, 2).join(" ");
+
+// ───────────── Scope: which sections apply to a given site ─────────────
+
+/** Sections the engineer can choose to include or leave out. */
+export const optionalSections = (form: FormSchema) => form.sections.filter((s) => (s.scope ?? "always") !== "always");
+
+/** Optional sections that start switched on. */
+export const defaultScope = (form: FormSchema) => form.sections.filter((s) => s.scope === "default").map((s) => s.key);
+
+/** Optional sections that count as surveyed "systems" (not supporting sections like materials). */
+export const systemSections = (form: FormSchema) => optionalSections(form).filter((s) => !s.support);
+
+/** Sections that are in scope, in survey order. */
+export function sectionsInScope(form: FormSchema, values: Values): SectionDef[] {
+  return form.sections.filter((s) => !isSkipped(values, s.key));
+}
 
 export const uid = () =>
   typeof crypto !== "undefined" && "randomUUID" in crypto
@@ -25,16 +53,17 @@ export function todayISO(): string {
 }
 
 const str = (v: unknown) => (typeof v === "string" ? v.trim() : "");
+const at = (values: Values, key?: string) => (key ? str(values[key]) : "");
 
-export function surveyTitle(values: Values): string {
-  const deal = str(values[K.dealId]);
-  const client = str(values[K.clientName]);
-  if (deal && client) return `${deal} — ${client}`;
-  return deal || client || "Untitled survey";
+export function surveyTitle(form: FormSchema | undefined, values: Values): string {
+  const ref = at(values, form?.meta.refKey);
+  const client = at(values, form?.meta.clientKey);
+  if (ref && client) return `${ref} — ${client}`;
+  return ref || client || "Untitled survey";
 }
 
-export function surveySubtitle(values: Values): string {
-  return [str(values[K.siteAddress]), str(values[K.date])].filter(Boolean).join(" · ");
+export function surveySubtitle(form: FormSchema | undefined, values: Values): string {
+  return [at(values, form?.meta.siteKey), at(values, form?.meta.dateKey)].filter(Boolean).join(" · ");
 }
 
 // ───────────── Initial values ─────────────
@@ -45,9 +74,17 @@ export function newCameraSet(): CameraSet {
   return { id: uid(), type: [], brand: [DEFAULT_CAMERA_BRAND], resolution: [], night: [], audio: [], ai: [], qty: "" };
 }
 
-export function createInitialValues(user?: Pick<SessionUser, "name">): Values {
+export interface NewSurveyInit {
+  ref?: string;
+  client?: string;
+  site?: string;
+  /** Optional sections to include. Omit to include every section that starts switched on. */
+  scope?: string[];
+}
+
+export function createInitialValues(form: FormSchema, user?: Pick<SessionUser, "name">, init: NewSurveyInit = {}): Values {
   const v: Values = {};
-  for (const sec of schema.sections) {
+  for (const sec of form.sections) {
     for (const b of sec.blocks) {
       if (b.t === "date" && b.defaultToday) v[b.key] = todayISO();
       if (b.t === "materials") v[b.key] = b.defaults.map((name) => ({ id: uid(), name, qty: "1", done: false }));
@@ -56,8 +93,13 @@ export function createInitialValues(user?: Pick<SessionUser, "name">): Values {
       if (b.t === "manpower") v[b.key] = [];
     }
   }
-  if (user?.name) v[K.engineer] = user.name;
-  v[SKIPPED_KEY] = [];
+  const { refKey, clientKey, siteKey, engineerKey } = form.meta;
+  if (user?.name && engineerKey) v[engineerKey] = user.name;
+  if (init.ref?.trim() && refKey) v[refKey] = init.ref.trim();
+  if (init.client?.trim() && clientKey) v[clientKey] = init.client.trim();
+  if (init.site?.trim() && siteKey) v[siteKey] = init.site.trim();
+  const scope = init.scope ?? defaultScope(form);
+  v[SKIPPED_KEY] = optionalSections(form).filter((s) => !scope.includes(s.key)).map((s) => s.key);
   return v;
 }
 
@@ -150,11 +192,14 @@ export interface Progress {
   missing: { section: string; sectionKey: string; label: string; blockKey: string }[];
 }
 
-export function surveyProgress(values: Values): Progress {
+const NO_PROGRESS: Progress = { done: 0, total: 0, pct: 0, missing: [] };
+
+export function surveyProgress(form: FormSchema | undefined, values: Values): Progress {
+  if (!form) return NO_PROGRESS;
   let done = 0;
   let total = 0;
   const missing: Progress["missing"] = [];
-  for (const sec of schema.sections) {
+  for (const sec of form.sections) {
     if (isSkipped(values, sec.key)) continue;
     for (const b of sec.blocks) {
       if (!isRequired(b)) continue;

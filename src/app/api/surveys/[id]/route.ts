@@ -1,8 +1,10 @@
 import { z } from "zod";
+import { canCreateIn, canEditSurvey, canViewSurvey } from "@/lib/access";
 import { HttpError, json, route } from "@/lib/api";
-import { filesBucket, fileDocs, surveys, type SurveyDoc } from "@/lib/mongo";
+import { ELV_DEPARTMENT_ID, ELV_FORM_ID } from "@/lib/elv-form";
+import { filesBucket, fileDocs, forms, surveys, type SurveyDoc } from "@/lib/mongo";
 import { collectFileRefs, surveyTitle } from "@/lib/survey";
-import type { ServerSurvey, SessionUser } from "@/lib/types";
+import type { ServerSurvey } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -16,12 +18,17 @@ const putBody = z.object({
   createdAt: z.number().int(),
   updatedAt: z.number().int(),
   force: z.boolean().optional(),
+  // Only read when the survey is first created. Clients from before departments existed omit them (= ELV).
+  departmentId: z.string().regex(/^[a-z0-9-]{2,12}$/).optional(),
+  formId: z.string().regex(/^[A-Za-z0-9_-]{3,80}$/).optional(),
 });
 
 const toApi = (d: SurveyDoc): ServerSurvey => ({
   id: d._id,
   ownerId: d.ownerId,
   ownerName: d.ownerName,
+  departmentId: d.departmentId,
+  formId: d.formId,
   status: d.status,
   values: d.values,
   rev: d.rev,
@@ -30,15 +37,17 @@ const toApi = (d: SurveyDoc): ServerSurvey => ({
   submittedAt: d.submittedAt,
 });
 
-function assertAccess(doc: SurveyDoc, user: SessionUser) {
-  if (doc.ownerId !== user.id && user.role !== "admin") throw new HttpError(403, "Not your survey");
+/** The title is derived from the survey's form (which fields are the reference and client). */
+async function titleFor(formId: string, values: Record<string, unknown>) {
+  const form = await (await forms()).findOne({ _id: formId }, { projection: { schema: 1 } });
+  return surveyTitle(form?.schema, values).slice(0, 200);
 }
 
 export const GET = route<{ id: string }>(async (_req, { user, params }) => {
   const id = ID.parse(params.id);
   const doc = await (await surveys()).findOne({ _id: id });
   if (!doc) throw new HttpError(404, "Survey not found");
-  assertAccess(doc, user);
+  if (!canViewSurvey(user, doc)) throw new HttpError(403, "You can't open this survey");
   return json({ survey: toApi(doc) });
 });
 
@@ -49,16 +58,24 @@ export const PUT = route<{ id: string }>(async (req, { user, params }) => {
   const body = putBody.parse(JSON.parse(raw));
   const col = await surveys();
   const now = Date.now();
-  const title = surveyTitle(body.values);
   const existing = await col.findOne({ _id: id });
 
   if (!existing) {
     if (body.baseRev !== 0) throw new HttpError(409, "Survey was deleted on the server", { code: "gone" });
+    const formId = body.formId ?? ELV_FORM_ID;
+    const form = await (await forms()).findOne({ _id: formId }, { projection: { departmentId: 1 } });
+    if (!form) throw new HttpError(400, "That form no longer exists", { code: "no-form" });
+    const departmentId = body.departmentId ?? (formId === ELV_FORM_ID ? ELV_DEPARTMENT_ID : form.departmentId);
+    if (form.departmentId !== departmentId) throw new HttpError(400, "That form doesn't belong to this department", { code: "bad-form" });
+    if (!canCreateIn(user, departmentId)) throw new HttpError(403, "You're not a member of this department", { code: "not-member" });
+
     const doc: SurveyDoc = {
       _id: id,
       ownerId: user.id,
       ownerName: user.name,
-      title,
+      departmentId,
+      formId,
+      title: await titleFor(formId, body.values),
       status: body.status,
       values: body.values,
       rev: 1,
@@ -75,7 +92,7 @@ export const PUT = route<{ id: string }>(async (req, { user, params }) => {
     return json({ rev: 1, updatedAt: doc.updatedAt });
   }
 
-  assertAccess(existing, user);
+  if (!canEditSurvey(user, existing)) throw new HttpError(403, "Only the owner can change this survey");
   if (body.baseRev !== existing.rev && !body.force) {
     throw new HttpError(409, "Survey changed on the server", { code: "conflict", server: toApi(existing) });
   }
@@ -85,7 +102,7 @@ export const PUT = route<{ id: string }>(async (req, { user, params }) => {
     { _id: id, rev: existing.rev },
     {
       $set: {
-        title,
+        title: await titleFor(existing.formId, body.values),
         status: body.status,
         values: body.values,
         updatedAt: body.updatedAt,
@@ -105,7 +122,7 @@ export const DELETE = route<{ id: string }>(async (_req, { user, params }) => {
   const col = await surveys();
   const doc = await col.findOne({ _id: id });
   if (!doc) return json({ ok: true });
-  assertAccess(doc, user);
+  if (!canEditSurvey(user, doc)) throw new HttpError(403, "Only the owner can delete this survey");
   await col.deleteOne({ _id: id });
   await dropUnreferencedFiles(id, {}).catch((e) => console.error("[api] file cleanup failed", e));
   return json({ ok: true });

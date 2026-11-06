@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { HttpError, json, publicRoute } from "@/lib/api";
-import { SESSION_COOKIE, sessionCookieOptions, signSession } from "@/lib/auth";
+import { SESSION_COOKIE, sessionCookieOptions, signSession, toSessionUser } from "@/lib/auth";
 import { users } from "@/lib/mongo";
 
 const body = z.object({ email: z.string().trim().toLowerCase().email().max(200), password: z.string().min(1).max(200) });
@@ -31,7 +31,7 @@ export const POST = publicRoute(async (req) => {
   }
   fails.delete(key);
 
-  const user = { id: doc._id.toHexString(), name: doc.name, email: doc.email, role: doc.role };
+  const user = toSessionUser(doc);
   const res = json({ user });
   res.cookies.set(SESSION_COOKIE, await signSession(user), sessionCookieOptions);
   return res;

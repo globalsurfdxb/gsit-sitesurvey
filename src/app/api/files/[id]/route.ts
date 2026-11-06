@@ -1,8 +1,9 @@
 import { Readable } from "node:stream";
 import { z } from "zod";
+import { canViewSurvey } from "@/lib/access";
 import { HttpError, route } from "@/lib/api";
 import { extOf, FILE_TYPES } from "@/lib/files";
-import { filesBucket, fileDocs } from "@/lib/mongo";
+import { filesBucket, fileDocs, surveys } from "@/lib/mongo";
 
 export const dynamic = "force-dynamic";
 
@@ -12,7 +13,10 @@ export const GET = route<{ id: string }>(async (_req, { user, params }) => {
   const id = ID.parse(params.id);
   const doc = await (await fileDocs()).findOne({ _id: id });
   if (!doc) throw new HttpError(404, "File not found");
-  if (doc.metadata?.ownerId !== user.id && user.role !== "admin") throw new HttpError(403, "Not your file");
+  // The owner, a super admin, or the lead of the department the survey belongs to.
+  const survey = doc.metadata?.surveyId ? await (await surveys()).findOne({ _id: doc.metadata.surveyId }, { projection: { ownerId: 1, departmentId: 1 } }) : null;
+  const ref = { ownerId: survey?.ownerId ?? doc.metadata?.ownerId ?? "", departmentId: survey?.departmentId };
+  if (!canViewSurvey(user, ref)) throw new HttpError(403, "You can't open this file");
 
   const type = FILE_TYPES[extOf(doc.filename)] ?? { mime: "application/octet-stream", inline: false };
   const safeName = doc.filename.replace(/[^\w.\- ]+/g, "_");

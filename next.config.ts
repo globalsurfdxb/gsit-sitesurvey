@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The dev-only route badge sits over the first tab on phones. Compile and runtime errors still show.
+  devIndicators: false,
   async headers() {
     return [
       {

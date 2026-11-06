@@ -1,6 +1,8 @@
+import { canEditSurvey } from "./access";
 import { collectFileRefs } from "./survey";
 import {
   emitChange,
+  putCatalog,
   getFile,
   listAllSurveys,
   markFileUploaded,
@@ -9,7 +11,7 @@ import {
   replaceSurvey,
   getSurvey,
 } from "./local-db";
-import type { ServerSurvey, SessionUser, SurveySummary } from "./types";
+import type { Catalog, ServerSurvey, SessionUser, SurveySummary } from "./types";
 
 export class ApiError extends Error {
   constructor(
@@ -27,8 +29,17 @@ export async function api<T = unknown>(path: string, init?: RequestInit): Promis
   return body as T;
 }
 
+/** Fetch the signed-in user plus their departments and forms, and cache them on this device. */
+export async function refreshCatalog(): Promise<{ user: SessionUser; catalog: Catalog }> {
+  const { user, ...catalog } = await api<{ user: SessionUser } & Catalog>("/api/bootstrap");
+  await putCatalog(catalog);
+  return { user, catalog };
+}
+
 export interface SyncResult {
   ok: boolean;
+  /** Fresh account details (roles and departments can change while a session is open). */
+  user?: SessionUser;
   /** Session expired: keep working offline, ask the user to sign in again. */
   auth?: boolean;
   offline?: boolean;
@@ -49,7 +60,12 @@ export function syncNow(user: SessionUser): Promise<SyncResult> {
 async function run(user: SessionUser): Promise<SyncResult> {
   const result: SyncResult = { ok: true, pushed: 0, pulled: 0 };
   try {
-    const mine = (await listAllSurveys()).filter((s) => s.ownerId === user.id || user.role === "admin");
+    // 0. Who am I, which departments and forms do I have? (Cached for offline use.)
+    const fresh = (await refreshCatalog()).user;
+    result.user = fresh;
+    user = fresh;
+
+    const mine = (await listAllSurveys()).filter((s) => canEditSurvey(user, s));
 
     // 1. Deletions made while offline.
     for (const s of mine.filter((s) => s.deleted)) {
@@ -58,7 +74,7 @@ async function run(user: SessionUser): Promise<SyncResult> {
     }
 
     // 2. Push edits (skip ones already in conflict until the user resolves them).
-    for (const s of mine.filter((s) => s.dirty && !s.deleted && !s.conflict)) {
+    for (const s of mine.filter((s) => s.dirty && !s.deleted && !s.conflict && !s.rejected)) {
       if (await pushSurvey(s.id, false)) result.pushed++;
     }
 
@@ -96,6 +112,8 @@ export function fromServer(s: ServerSurvey) {
     id: s.id,
     ownerId: s.ownerId,
     ownerName: s.ownerName,
+    departmentId: s.departmentId,
+    formId: s.formId,
     values: s.values,
     status: s.status,
     rev: s.rev,
@@ -116,7 +134,7 @@ export async function pushSurvey(id: string, force: boolean): Promise<boolean> {
   try {
     const r = await api<{ rev: number }>(`/api/surveys/${id}`, {
       method: "PUT",
-      body: JSON.stringify({ values: s.values, status: s.status, baseRev: s.rev, createdAt: s.createdAt, updatedAt: s.updatedAt, force }),
+      body: JSON.stringify({ values: s.values, status: s.status, baseRev: s.rev, createdAt: s.createdAt, updatedAt: s.updatedAt, force, departmentId: s.departmentId, formId: s.formId }),
     });
     // The user may have kept typing while we were uploading; only clear `dirty` if nothing changed.
     await patchSurvey(id, (cur) => {
@@ -129,6 +147,13 @@ export async function pushSurvey(id: string, force: boolean): Promise<boolean> {
       const server = e.body.server as ServerSurvey | undefined;
       await patchSurvey(id, (cur) => {
         cur.conflict = { serverRev: server?.rev ?? 0 };
+      });
+      return false;
+    }
+    // Refused for good (author left the department, form deleted…): park it instead of failing every sync.
+    if (e instanceof ApiError && (e.status === 403 || (e.status === 400 && ["no-form", "bad-form"].includes(String(e.body.code))))) {
+      await patchSurvey(id, (cur) => {
+        cur.rejected = e.message;
       });
       return false;
     }

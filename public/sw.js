@@ -8,10 +8,10 @@
  *  - /api/*                                      -> never cached (always network)
  *  - WARM message from the page                  -> cache the app pages and their JS/CSS ahead of time
  */
-const VERSION = "v1";
+const VERSION = "v4";
 const STATIC = `gs-static-${VERSION}`;
 const PAGES = `gs-pages-${VERSION}`;
-const PAGE_URLS = ["/", "/survey", "/report"];
+const PAGE_URLS = ["/", "/surveys", "/account", "/survey", "/report", "/departments", "/department", "/member", "/forms", "/form-builder"];
 
 self.addEventListener("install", () => self.skipWaiting());
 
@@ -63,7 +63,7 @@ async function networkFirstPage(req, url) {
     if (hit) return hit;
     return new Response(
       "<!doctype html><meta name=viewport content='width=device-width,initial-scale=1'><title>Offline</title>" +
-        "<body style='font-family:system-ui;background:#0f1f3d;color:#e8edf5;padding:2rem'>" +
+        "<body style='font-family:system-ui;background:#04070e;color:#e8edf5;padding:2rem'>" +
         "<h1>You’re offline</h1><p>Open the app once while online so it can be saved for offline use.</p>",
       { status: 503, headers: { "Content-Type": "text/html; charset=utf-8" } },
     );
