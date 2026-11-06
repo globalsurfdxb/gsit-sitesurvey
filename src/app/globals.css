@@ -63,12 +63,12 @@
   --font: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI Variable", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
   --bar-h: 84px;
-  color-scheme: light dark; /* follows the phone; the explicit overrides below pin it when the theme is chosen in Account */
+  color-scheme: light; /* light is the default; Account can switch to dark, or to "follow the phone" (data-theme="system") */
 }
-:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="system"] { color-scheme: light dark; }
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
+  :root[data-theme="system"] {
     --logo-ink: #f4f7fd;
     --logo-blue: #3a85f0;
     --logo-grey: #a3a3a8;
@@ -334,7 +334,7 @@ select.input { appearance: none; background-image: url("data:image/svg+xml,%3Csv
 .tone-blue { --t: #1f6fd8; } .tone-indigo { --t: #3f55c8; } .tone-teal { --t: #0e7f9a; } .tone-green { --t: #0f8a74; }
 .tone-slate { --t: #6b7280; } .tone-purple { --t: #6a4fc9; } .tone-amber { --t: #9a6a1a; } .tone-orange { --t: #b45a2a; } .tone-rose { --t: #b84564; }
 :root[data-theme="dark"] .sec-icon { color: color-mix(in srgb, var(--t) 55%, #fff); }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .sec-icon { color: color-mix(in srgb, var(--t) 55%, #fff); } }
+@media (prefers-color-scheme: dark) { :root[data-theme="system"] .sec-icon { color: color-mix(in srgb, var(--t) 55%, #fff); } }
 
 /* ───────────── App shell ───────────── */
 .shell { min-height: 100dvh; }
@@ -689,7 +689,7 @@ span.fe-label { padding: 0 4px; }
 }
 
 @media print {
-  :root, :root[data-theme="dark"] { --bg: #fff; --surface: #fff; --surface-2: #f3f4f6; --surface-3: #e5e7eb; --text: #111; --text-2: #333; --text-3: #666; --border: #ddd; --border-strong: #ccc; --primary: #114a9f; --logo-ink: #000; --logo-blue: #114a9f; --logo-grey: #7a797c; color-scheme: light; }
+  :root, :root[data-theme="dark"], :root[data-theme="system"] { --bg: #fff; --surface: #fff; --surface-2: #f3f4f6; --surface-3: #e5e7eb; --text: #111; --text-2: #333; --text-3: #666; --border: #ddd; --border-strong: #ccc; --primary: #114a9f; --logo-ink: #000; --logo-blue: #114a9f; --logo-grey: #7a797c; color-scheme: light; }
   body { background: #fff; font-size: 12px; }
   body::before, body::after { display: none; }
   .no-print, .toasts { display: none !important; }

@@ -16,9 +16,9 @@ const THEME_EVT = "gs-theme-change";
 function readTheme(): Theme {
   try {
     const t = localStorage.getItem("gs_theme");
-    return t === "light" || t === "dark" ? t : "system";
+    return t === "dark" || t === "system" ? t : "light"; // light unless the user chose otherwise
   } catch {
-    return "system";
+    return "light";
   }
 }
 
@@ -29,17 +29,18 @@ function useTheme(): [Theme, (t: Theme) => void] {
       return () => window.removeEventListener(THEME_EVT, cb);
     },
     readTheme,
-    () => "system" as Theme,
+    () => "light" as Theme,
   );
   const set = (t: Theme) => {
     try {
-      if (t === "system") localStorage.removeItem("gs_theme");
+      if (t === "light") localStorage.removeItem("gs_theme");
       else localStorage.setItem("gs_theme", t);
     } catch {
       /* private mode: theme just won't persist */
     }
-    if (t === "system") delete document.documentElement.dataset.theme;
-    else document.documentElement.dataset.theme = t;
+    document.documentElement.dataset.theme = t;
+    const dark = t === "dark" || (t === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", dark ? "#04070e" : "#e8edf5");
     window.dispatchEvent(new Event(THEME_EVT));
   };
   return [theme, set];
@@ -115,7 +116,7 @@ export function Account() {
       <section className="card settings">
         <h2 className="section-title">Appearance</h2>
         <div className="seg wide" role="radiogroup" aria-label="Theme">
-          {(["system", "light", "dark"] as const).map((t) => (
+          {(["light", "dark", "system"] as const).map((t) => (
             <button key={t} role="radio" aria-checked={theme === t} className={`seg-btn${theme === t ? " on neutral" : ""}`} onClick={() => setTheme(t)}>
               <Icon name={t === "dark" ? "moon" : "sun"} size={16} /> {t[0].toUpperCase() + t.slice(1)}
             </button>

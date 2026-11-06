@@ -17,10 +17,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#e8edf5" },
-    { media: "(prefers-color-scheme: dark)", color: "#04070e" },
-  ],
+  // Light by default; the theme script below switches it to the dark colour when the user has chosen dark.
+  themeColor: "#e8edf5",
   // The app draws its own light and dark themes. Declaring both tells phone browsers not to apply their
   // automatic "dark mode for websites", which would dim the white logo and the blue accents.
   colorScheme: "light dark",
@@ -29,8 +27,8 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-// Applies the saved theme before first paint so there's no light/dark flash.
-const themeScript = `try{var t=localStorage.getItem('gs_theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}`;
+// Applies the saved theme before first paint so there's no light/dark flash. Light unless the user chose dark or "system".
+const themeScript = `try{var t=localStorage.getItem('gs_theme');if(t!=='dark'&&t!=='system')t='light';document.documentElement.dataset.theme=t;if(t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches)){var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content','#04070e')}}catch(e){document.documentElement.dataset.theme='light'}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
