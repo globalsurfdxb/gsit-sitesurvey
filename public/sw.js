@@ -8,7 +8,7 @@
  *  - /api/*                                      -> never cached (always network)
  *  - WARM message from the page                  -> cache the app pages and their JS/CSS ahead of time
  */
-const VERSION = "v5";
+const VERSION = "v6";
 const STATIC = `gs-static-${VERSION}`;
 const PAGES = `gs-pages-${VERSION}`;
 const PAGE_URLS = ["/", "/surveys", "/account", "/survey", "/report", "/departments", "/department", "/member", "/forms", "/form-builder"];

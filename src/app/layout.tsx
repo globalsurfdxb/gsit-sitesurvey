@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { AppProvider } from "@/components/AppProvider";
+import { Splash } from "@/components/brand/Splash";
 import { PwaRegister } from "@/components/PwaRegister";
 import { UiProvider } from "@/components/ui/UiProvider";
 import "./globals.css";
@@ -36,9 +37,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <noscript>
+          <style>{".splash{display:none}"}</style>
+        </noscript>
       </head>
       <body>
         <AppProvider>
+          <Splash />
           <UiProvider>
             <PwaRegister />
             {children}

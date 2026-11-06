@@ -175,6 +175,28 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.022em; }
 .link { color: var(--primary); font-weight: 600; font-size: 14px; text-decoration: none; }
 .error { color: var(--bad); background: var(--bad-soft); border-radius: var(--r-sm); padding: 10px 14px; font-size: 14px; }
 .spin { animation: spin 1s linear infinite; }
+
+/* ───────────── Launch screen ───────────── */
+.splash { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: env(safe-area-inset-top) 20px env(safe-area-inset-bottom); background: var(--mesh), var(--bg); overflow: hidden; transition: opacity 0.52s ease, transform 0.52s cubic-bezier(0.4, 0, 0.2, 1); animation: splash-failsafe 0.3s 7s forwards; }
+.splash.out { opacity: 0; transform: scale(1.04); pointer-events: none; }
+.splash-glow { position: absolute; left: 50%; top: 46%; width: min(120vw, 620px); aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--brand-hi) 34%, transparent) 0%, color-mix(in srgb, var(--brand-hi) 10%, transparent) 40%, transparent 68%); animation: splash-glow 3.2s ease-in-out infinite; }
+.splash-stage { position: relative; display: flex; flex-direction: column; align-items: center; gap: 22px; animation: splash-in 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.splash-logo { width: min(66vw, 300px); height: auto; overflow: visible; filter: drop-shadow(0 12px 40px color-mix(in srgb, var(--brand-hi) 42%, transparent)); }
+/* The letters start a little muted so the passing light visibly brightens them. */
+.splash .logo-ink path { fill: color-mix(in srgb, var(--logo-ink) 52%, var(--brand-hi)); }
+.splash .logo-grey path { fill: color-mix(in srgb, var(--logo-grey) 80%, var(--brand-hi)); }
+.splash-beam { transform: translateX(-12px) skewX(-18deg); animation: splash-sweep 1.9s cubic-bezier(0.45, 0, 0.25, 1) 0.35s infinite; }
+.splash-dot { animation: splash-dot 1.9s ease-in-out 0.35s infinite; }
+.splash-title { font-size: 11px; font-weight: 600; letter-spacing: 0.34em; text-indent: 0.34em; text-transform: uppercase; color: var(--text-3); animation: fade 0.9s 0.3s both; }
+.splash-bar { width: 116px; height: 3px; border-radius: 99px; overflow: hidden; background: color-mix(in srgb, var(--text) 10%, transparent); animation: fade 0.9s 0.4s both; }
+.splash-bar span { display: block; width: 42%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, transparent, var(--brand-hi), transparent); animation: splash-bar 1.3s cubic-bezier(0.45, 0, 0.25, 1) infinite; }
+@keyframes splash-in { from { opacity: 0; transform: translateY(10px) scale(0.94); } }
+@keyframes splash-sweep { 0% { transform: translateX(-12px) skewX(-18deg); } 62%, 100% { transform: translateX(196px) skewX(-18deg); } }
+@keyframes splash-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+@keyframes splash-glow { 0%, 100% { opacity: 0.75; scale: 0.96; } 50% { opacity: 1; scale: 1.04; } }
+@keyframes splash-bar { from { transform: translateX(-110%); } to { transform: translateX(260%); } }
+@keyframes splash-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+@media print { .splash { display: none; } }
 @keyframes spin { to { transform: rotate(360deg); } }
 .desktop-only { display: none !important; }
 
